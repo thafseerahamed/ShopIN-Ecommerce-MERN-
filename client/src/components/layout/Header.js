@@ -1,7 +1,7 @@
 import React from 'react';
-
+import "../../App.css"
 const Header = () => {
-  return <div>
+  return( <div>
  <nav className="navbar row">
       <div className="col-12 col-md-3">
         <div className="navbar-brand">
@@ -33,7 +33,8 @@ const Header = () => {
       </div>
     </nav>
 
-  </div>;
-};
+  </div>
+  )
+}
 
 export default Header;
