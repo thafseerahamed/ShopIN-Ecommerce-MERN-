@@ -22,7 +22,7 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default:0
     },
-    Images:[
+    images:[
         {
             public_id:{
                 type: String,
@@ -88,7 +88,7 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref:'user',
         required:true
-    },
+    }, 
     createdAt:{
         type: Date,
         default:Date.now
