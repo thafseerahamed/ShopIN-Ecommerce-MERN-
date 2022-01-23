@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router,Route } from "react-router-dom";
 import Footer1 from "./components/layout/Footer1";
 import Header from "./components/layout/Header";
 import Home from "./components/Home";
@@ -10,10 +10,11 @@ function App() {
     <Router>
       <Header />
       <div className="container container-fluid">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
-        </Routes>
+     
+          <Route exact path="/" component={Home}/>
+          <Route path="/search/:keyword" component={Home} />
+          <Route path="/product/:id" component={ProductDetails} />
+  
       </div>
       <Footer1 />
     </Router>
