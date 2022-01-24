@@ -6,7 +6,7 @@ import { clearErrors, getProductDetails } from '../../actions/productActions';
 import {useAlert} from 'react-alert'
 import Loader from '../layout/Loader'
 import MetaData from '../layout/MetaData';
-import Carousel from 'react-bootstrap/Carousel'
+import  {Carousel} from 'react-bootstrap'
 
 
 const ProductDetails = () => {

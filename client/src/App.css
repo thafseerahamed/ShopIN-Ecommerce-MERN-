@@ -39,6 +39,18 @@ nav {
   width: 90%;
   margin-right: 35%;
 }
+.title{
+  float: right;
+  color: #f3f3f4;
+  font-size: 1.3rem;
+  font-family: 'Bitstream Vera Sans';
+  font-weight: 700;
+ 
+}
+.title1{
+  color: #ffc220;
+  font-size: 1.5rem;
+}
 
 #search_field {
   height: 2.4rem;
