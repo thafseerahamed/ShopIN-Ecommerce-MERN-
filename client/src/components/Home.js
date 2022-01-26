@@ -140,7 +140,7 @@ if(keyword){
     
       products && products.map(product =>
         (
-          <Product key ={product._id} product={product} col = {3}
+          <Product key ={product._id} product={product} col = {4}
             />
         )
         

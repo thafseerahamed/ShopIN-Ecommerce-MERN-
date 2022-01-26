@@ -1,27 +1,28 @@
 import axios from 'axios'
-import {ALL_PRODUCTS_REQUEST,
+import {
+    ALL_PRODUCTS_REQUEST,
     ALL_PRODUCTS_SUCCESS,
     ALL_PRODUCTS_FAIL,
     CLEAR_ERRORS,
     PRODUCT_DETAILS_REQUEST,
     PRODUCT_DETAILS_SUCCESS,
     PRODUCT_DETAILS_FAIL
-    } from '../constants/productConstants'
+} from '../constants/productConstants'
 
 
-export const getProducts = (keyword = '' , currentPage =1,price,category,rating = 0) => async (dispatch) => {
+export const getProducts = (keyword = '', currentPage = 1, price, category, rating = 0) => async (dispatch) => {
     try {
-        dispatch({ type:ALL_PRODUCTS_REQUEST})
+        dispatch({ type: ALL_PRODUCTS_REQUEST })
         let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}
         &ratings[gte]=${rating}`
-            if (category){
-                link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}
+        if (category) {
+            link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}
                 &category=${category}&ratings[gte]=${rating}`
-            }
-        const {data} = await axios.get(link)
+        }
+        const { data } = await axios.get(link)
 
         dispatch({
-            type:ALL_PRODUCTS_SUCCESS,
+            type: ALL_PRODUCTS_SUCCESS,
             payload: data
         })
     } catch (error) {
@@ -30,19 +31,19 @@ export const getProducts = (keyword = '' , currentPage =1,price,category,rating 
             payload: error.response.data.message
         })
     }
-}    
+}
 
 
 
 export const getProductDetails = (id) => async (dispatch) => {
     try {
-        dispatch({ type:PRODUCT_DETAILS_REQUEST})
+        dispatch({ type: PRODUCT_DETAILS_REQUEST })
 
-        const {data} = await axios.get(`/api/v1/product/${id}`)
+        const { data } = await axios.get(`/api/v1/product/${id}`)
 
 
         dispatch({
-            type:PRODUCT_DETAILS_SUCCESS,
+            type: PRODUCT_DETAILS_SUCCESS,
             payload: data.product
         })
     } catch (error) {
@@ -51,11 +52,11 @@ export const getProductDetails = (id) => async (dispatch) => {
             payload: error.response.data.message
         })
     }
-}    
+}
 
 // Clear errors
-export const clearErrors = () => async(dispatch) => {
-    dispatch({ 
+export const clearErrors = () => async (dispatch) => {
+    dispatch({
         type: CLEAR_ERRORS
     })
 }

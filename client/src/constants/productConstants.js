@@ -8,6 +8,3 @@ export const PRODUCT_DETAILS_FAIL = 'PRODUCT_DETAILS_FAIL'
 
 
 export const CLEAR_ERRORS = 'CLEAR_ERRORS'
-
-
-
