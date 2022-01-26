@@ -15,9 +15,9 @@ const Header = () => {
   const { user, loading } = useSelector((state) => state.user);
 
   const logoutHandler = () => {
-    dispatch(logoutuser())
-    alert.success('Logged out successfully')
-  }
+    dispatch(logoutuser());
+    alert.success("Logged out successfully");
+  };
   return (
     <div>
       <nav className="navbar row">
@@ -48,39 +48,59 @@ const Header = () => {
 
           {user ? (
             <div className="ml-4 dropdown d-inline">
-              <Link to="#!" className="btn dropdown-toggle text-white mr-4"
-              type="button" id="dropDownMenuButton" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-
+              <Link
+                to="#!"
+                className="btn dropdown-toggle text-white mr-4"
+                type="button"
+                id="dropDownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
                 <figure className="avatar avatar-nav">
-                    <img src={user.avatar && user.avatar.url}
-                    alt={user && user.name} className="rounded-circle"/>
+                  <img
+                    src={user.avatar && user.avatar.url}
+                    alt={user && user.name}
+                    className="rounded-circle"
+                  />
                 </figure>
                 <span>{user && user.name}</span>
               </Link>
-                <div className="dropdown-menu" aria-labelledby="dropDownMenuButton">
-                {user && user.role !== 'admin' ? (
-                  <Link className="dropdown-item" to="/orders/me">Orders</Link>
-                ):(
-                  <Link className="dropdown-item" to="/dashboard">Dashboard</Link>
-                )}
-                  <Link className="dropdown-item" to="/me">Profile</Link>
-                  <Link to="/" className="dropdown-item text-danger" onClick={logoutHandler}>
-                    Logout
+              <div
+                className="dropdown-menu"
+                aria-labelledby="dropDownMenuButton"
+              >
+                {user && user.role !== "admin" ? (
+                  <Link className="dropdown-item" to="/orders/me">
+                    Orders
                   </Link>
-                  </div>
-
+                ) : (
+                  <Link className="dropdown-item" to="/dashboard">
+                    Dashboard
+                  </Link>
+                )}
+                <Link className="dropdown-item" to="/me">
+                  Profile
+                </Link>
+                <Link
+                  to="/"
+                  className="dropdown-item text-danger"
+                  onClick={logoutHandler}
+                >
+                  Logout
+                </Link>
               </div>
-
-
-
-          ): !loading &&  <Link to="/login">
-          {" "}
-          <button className="btn ml-4" id="login_btn">
-            Login
-          </button>{" "}
-        </Link> }
-         
+            </div>
+          ) : (
+            !loading && (
+              <Link to="/login">
+                {" "}
+                <button className="btn ml-4" id="login_btn">
+                  Login
+                </button>{" "}
+              </Link>
+            )
+          )}
         </div>
       </nav>
     </div>

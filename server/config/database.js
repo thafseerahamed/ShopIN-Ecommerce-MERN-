@@ -1,14 +1,16 @@
-const mongoose =require('mongoose')
+const mongoose = require("mongoose");
 
-const connectDatabase =()=>{
-    mongoose.connect(process.env.DB_LOCAL_URI,{
-        useNewUrlParser:true,
-        useUnifiedTopology:true,
-     
-    }).then(con =>{
-        console.log(`Mongodb Database connected with host : ${con.connection.host}`);
+const connectDatabase = () => {
+  mongoose
+    .connect(process.env.DB_LOCAL_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     })
-}
+    .then((con) => {
+      console.log(
+        `Mongodb Database connected with host : ${con.connection.host}`
+      );
+    });
+};
 
-
-module.exports = connectDatabase
+module.exports = connectDatabase;

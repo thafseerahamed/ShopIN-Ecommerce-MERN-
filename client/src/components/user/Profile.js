@@ -23,9 +23,13 @@ const Profile = () => {
                   alt={user.name}
                 />
               </figure>
-              <Link to="/me/update" id="edit_profile" className="btn btn-primary btn-block my-5">
-                                Edit Profile
-                            </Link>
+              <Link
+                to="/me/update"
+                id="edit_profile"
+                className="btn btn-primary btn-block my-5"
+              >
+                Edit Profile
+              </Link>
             </div>
 
             <div className="col-12 col-md-5">

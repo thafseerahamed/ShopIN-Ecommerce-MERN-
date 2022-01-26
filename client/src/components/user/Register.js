@@ -47,27 +47,31 @@ const Register = ({ history }) => {
     dispatch(register(formData));
   };
 
-  const onChange = e => {
-      if(e.target.name === 'avatar'){
-          const reader = new FileReader()
+  const onChange = (e) => {
+    if (e.target.name === "avatar") {
+      const reader = new FileReader();
 
-          reader.onload = () => {
-              if(reader.readyState ===2){
-                  setAvatarPreview(reader.result)
-                  setAvatar(reader.result)
-              }
-          }
-          reader.readAsDataURL(e.target.files[0])
-      }else {
-          setUser({...user,[e.target.name]:e.target.value })
-      }
-  }
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setAvatarPreview(reader.result);
+          setAvatar(reader.result);
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
+      setUser({ ...user, [e.target.name]: e.target.value });
+    }
+  };
   return (
     <Fragment>
       <MetaData title={"Register User"} />
       <div className="row wrapper">
         <div className="col-10 col-lg-5">
-          <form className="shadow-lg" onSubmit={submitHandler} encType="multipart/form-data">
+          <form
+            className="shadow-lg"
+            onSubmit={submitHandler}
+            encType="multipart/form-data"
+          >
             <h1 className="mb-3">Register</h1>
 
             <div className="form-group">
@@ -76,7 +80,7 @@ const Register = ({ history }) => {
                 type="name"
                 id="name_field"
                 className="form-control"
-                name='name'
+                name="name"
                 value={name}
                 onChange={onChange}
               />
@@ -88,7 +92,7 @@ const Register = ({ history }) => {
                 type="email"
                 id="email_field"
                 className="form-control"
-                name='email'
+                name="email"
                 value={email}
                 onChange={onChange}
               />
@@ -100,7 +104,7 @@ const Register = ({ history }) => {
                 type="password"
                 id="password_field"
                 className="form-control"
-                name='password'
+                name="password"
                 value={password}
                 onChange={onChange}
               />
@@ -111,7 +115,11 @@ const Register = ({ history }) => {
               <div className="d-flex align-items-center">
                 <div>
                   <figure className="avatar mr-3 item-rtl">
-                    <img src={avatarPreview} className="rounded-circle" alt="Avatar Preview" />
+                    <img
+                      src={avatarPreview}
+                      className="rounded-circle"
+                      alt="Avatar Preview"
+                    />
                   </figure>
                 </div>
                 <div className="custom-file">
@@ -134,7 +142,7 @@ const Register = ({ history }) => {
               id="register_button"
               type="submit"
               className="btn btn-block py-3"
-              disabled={loading ? true :false}
+              disabled={loading ? true : false}
             >
               REGISTER
             </button>
