@@ -45,13 +45,10 @@ const productSchema = new mongoose.Schema({
         "Headphones",
         "books",
         "Accessories",
+        "Food"
       ],
       message: "please select correct category for product",
     },
-  },
-  seller: {
-    type: String,
-    required: [true, "Please enter product seller"],
   },
   stock: {
     type: Number,
@@ -65,6 +62,11 @@ const productSchema = new mongoose.Schema({
   },
   reviews: [
     {
+      user: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+        required: true,
+      },
       name: {
         type: String,
         required: true,
@@ -81,7 +83,7 @@ const productSchema = new mongoose.Schema({
   ],
   user: {
     type: mongoose.Schema.ObjectId,
-    ref: "user",
+    ref: "User",
     required: true,
   },
   createdAt: {

@@ -23,7 +23,7 @@ import {
   FORGOT_PASSWORD_FAIL,
   NEW_PASSWORD_REQUEST,
   NEW_PASSWORD_SUCCESS,
-  NEW_PASSWORD_FAIL
+  NEW_PASSWORD_FAIL,
 } from "../constants/userConstatnts";
 
 // Login
@@ -124,7 +124,6 @@ export const updateProfile = (userData) => async (dispatch) => {
   }
 };
 
-
 //update user password
 export const updatePassword = (passwords) => async (dispatch) => {
   try {
@@ -132,11 +131,15 @@ export const updatePassword = (passwords) => async (dispatch) => {
 
     const config = {
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
     };
 
-    const { data } = await axios.put("/api/v1/password/update", passwords, config);
+    const { data } = await axios.put(
+      "/api/v1/password/update",
+      passwords,
+      config
+    );
 
     dispatch({
       type: UPDATE_PASSWORD_SUCCESS,
@@ -150,9 +153,6 @@ export const updatePassword = (passwords) => async (dispatch) => {
   }
 };
 
-
-
-
 //Forgot password
 export const forgotPassword = (email) => async (dispatch) => {
   try {
@@ -160,7 +160,7 @@ export const forgotPassword = (email) => async (dispatch) => {
 
     const config = {
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
     };
 
@@ -178,23 +178,26 @@ export const forgotPassword = (email) => async (dispatch) => {
   }
 };
 
-
 //Reset password
-export const resetPassword = (token,passwords) => async (dispatch) => {
+export const resetPassword = (token, passwords) => async (dispatch) => {
   try {
     dispatch({ type: NEW_PASSWORD_REQUEST });
 
     const config = {
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
     };
 
-    const { data } = await axios.put(`/api/v1/password/reset/${token}`, passwords, config);
+    const { data } = await axios.put(
+      `/api/v1/password/reset/${token}`,
+      passwords,
+      config
+    );
 
     dispatch({
       type: NEW_PASSWORD_SUCCESS,
-      payload: data.success
+      payload: data.success,
     });
   } catch (error) {
     dispatch({
@@ -203,7 +206,6 @@ export const resetPassword = (token,passwords) => async (dispatch) => {
     });
   }
 };
-
 
 //Logout user
 export const logoutuser = () => async (dispatch) => {
