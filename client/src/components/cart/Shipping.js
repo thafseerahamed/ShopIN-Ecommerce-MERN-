@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import MetaData from "../layout/MetaData";
 import {saveShippingInfo} from '../../actions/cartActions'
+import CheckoutSteps from "./CheckoutSteps";
 const Shipping = ({ history}) => {
      const countryList = Object.values(countries)
     const {shippingInfo} = useSelector(state => state.cart)
@@ -18,13 +19,13 @@ const Shipping = ({ history}) => {
     const submitHandler = (e) => {
         e.preventDefault();
         dispatch(saveShippingInfo({ address,city,postalCode,phoneNo,country}))
-        history.push('/confirm')
+        history.push('/order/confirm')
     }
 
   return <div>
       <MetaData title={"Shipping Info"}/>
 
-
+    <CheckoutSteps shipping />
       <div className="row wrapper">
                 <div className="col-10 col-lg-5">
                     <form className="shadow-lg" onSubmit={submitHandler}>
