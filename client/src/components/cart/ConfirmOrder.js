@@ -63,12 +63,12 @@ const ConfirmOrder = ({ history }) => {
     </div>
     <hr />
     </div>
-
-
+         
+      
 ))}
              
              
-            </div>
+             </div>
 			
 			<div className="col-12 col-lg-3 my-4">
                     <div id="order_summary">
@@ -91,6 +91,6 @@ const ConfirmOrder = ({ history }) => {
 			
         </div>
   </div>
-  )};
+)}
 
 export default ConfirmOrder;

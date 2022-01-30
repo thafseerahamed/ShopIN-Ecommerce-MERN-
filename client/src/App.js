@@ -51,20 +51,20 @@ function App() {
         <Route path="/register" component={Register} />
         <Route path="/password/forgot" component={ForgotPassword} exact />
         <Route path="/password/reset/:token" component={NewPassword} exact />
-
-
         <Route path="/cart" component={Cart} />
        
         <ProtectedRoute path="/shipping" component={Shipping} exact />
-        <ProtectedRoute path="/order/confirm" component={ConfirmOrder} exact />
+        <ProtectedRoute path="/confirm" component={ConfirmOrder} exact />
         <ProtectedRoute path="/success" component={OrderSuccess} exact />
         {stripeApiKey && 
         <Elements stripe={loadStripe(stripeApiKey)}>
           <ProtectedRoute path="/payment" component = {Payment} />
         </Elements>
         }
+         <ProtectedRoute path="/order/:id" component={OrderDetails} exact  />
+       
          <ProtectedRoute path="/orders/me" component={ListOrders} exact />
-         <Route path="/order/:id" component={OrderDetails}  />
+       
         <ProtectedRoute path="/me" component={Profile} exact />
         <ProtectedRoute path="/me/update" component={ProfileUpdate} exact />
         <ProtectedRoute
