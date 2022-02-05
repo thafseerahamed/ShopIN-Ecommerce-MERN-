@@ -50,7 +50,7 @@ const UpdatePassword = ({ history }) => {
           <form className="shadow-lg" onSubmit={submitHandler}>
             <h1 className="mt-2 mb-5">Update Password</h1>
             <div className="form-group">
-              <label for="old_password_field">Old Password</label>
+              <label htmlFor="old_password_field">Old Password</label>
               <input
                 type="password"
                 id="old_password_field"
@@ -61,7 +61,7 @@ const UpdatePassword = ({ history }) => {
             </div>
 
             <div className="form-group">
-              <label for="new_password_field">New Password</label>
+              <label htmlFor="new_password_field">New Password</label>
               <input
                 type="password"
                 id="new_password_field"

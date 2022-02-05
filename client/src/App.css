@@ -498,7 +498,7 @@ footer {
   display: flex;
   width: 100%;
   align-items: stretch;
-  min-height: 100vh;
+  min-height: 370vh;
   font-weight: normal;
 
   margin-top: 0;

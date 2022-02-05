@@ -10,6 +10,7 @@ const {
   createProductReview,
   getProductReviews,
   deleteReview,
+  getAdminProducts,
 } = require("../controllers/productController");
 const {
   isAuthenticatedUser,
@@ -17,6 +18,7 @@ const {
 } = require("../middlewares/userAuth");
 
 router.route("/products").get(getProducts);
+router.route("/admin/products").get(getAdminProducts);
 router.route("/product/:id").get(getSingleProduct);
 router
   .route("/admin/product/new")

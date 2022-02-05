@@ -1,11 +1,13 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { Link } from 'react-router-dom'
 import MetaData from '../layout/MetaData';
 
 const OrderSuccess = () => {
 
+ 
     const paymentInfo = JSON.parse(sessionStorage.getItem('paymentInfo'))
   return <div>
+   
 <MetaData title={"Order Success"}/>
 
 <div className="row justify-content-center">
