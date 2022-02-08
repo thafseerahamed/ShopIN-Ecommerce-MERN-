@@ -1,4 +1,5 @@
 const express = require("express");
+const { route } = require("express/lib/router");
 const {
   registerUser,
   loginUser,
@@ -12,10 +13,13 @@ const {
   getUserDeatails,
   updateUser,
   deleteUser,
+  blockUser,
+  unBlockUser
 } = require("../controllers/userController");
 const {
   isAuthenticatedUser,
   authorizeRoles,
+  authorizeUser,
 } = require("../middlewares/userAuth");
 const router = express.Router();
 
@@ -39,4 +43,6 @@ router
   .get(isAuthenticatedUser, authorizeRoles("admin"), getUserDeatails)
   .put(isAuthenticatedUser, authorizeRoles("admin"), updateUser)
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
+router.route("/admin/blockuser/:id").put(isAuthenticatedUser,authorizeRoles("admin"),blockUser)  
+router.route("/admin/unblockuser/:id").put(isAuthenticatedUser,authorizeRoles("admin"),unBlockUser)  
 module.exports = router;

@@ -43,6 +43,11 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   if (!user) {
     return next(new ErrorHandler("Invalid email", 401));
   }
+  if(user.isBlocked===true){
+    {
+      return next(new ErrorHandler("User Blocked", 401));
+    }
+  }
 
   // Checks if password is correct or not
   const isPasswordMatched = await user.comparePassword(password);
@@ -238,8 +243,7 @@ exports.getUserDeatails = catchAsyncErrors(async (req, res, next) => {
 // Update user profile   => /api/v1/admin/user/:id
 exports.updateUser = catchAsyncErrors(async (req, res, next) => {
   const newUserData = {
-    name: req.body.name,
-    email: req.body.email,
+    
     role: req.body.role,
   };
 
@@ -267,6 +271,44 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
   //remove avatar todo
 
   await user.deleteOne();
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
+
+
+// Block user profile   => /api/v1/admin/blockuser/:id
+exports.blockUser = catchAsyncErrors(async (req, res, next) => {
+  const newUserData = {
+    
+    isBlocked:true
+  };
+
+  const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
+// Unblock user profile   => /api/v1/admin/unblockuser/:id
+exports.unBlockUser = catchAsyncErrors(async (req, res, next) => {
+  const newUserData = {
+    
+    isBlocked:false
+  };
+
+  const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
 
   res.status(200).json({
     success: true,

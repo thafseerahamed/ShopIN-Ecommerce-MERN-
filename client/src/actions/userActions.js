@@ -33,6 +33,13 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
+  BLOCK_USER_REQUEST,
+  BLOCK_USER_SUCCESS,
+  BLOCK_USER_FAIL,
+  UNBLOCK_USER_REQUEST,
+  UNBLOCK_USER_SUCCESS,
+  UNBLOCK_USER_FAIL,
+
 } from "../constants/userConstatnts";
 
 // Login
@@ -300,6 +307,52 @@ export const getUserDetails = (id) => async (dispatch) => {
       })
   }
 }
+
+
+
+// Block user --ADMIN
+
+export const blockUser = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: BLOCK_USER_REQUEST });
+
+   
+    const { data } = await axios.put(`/api/v1/admin/blockuser/${id}`);
+
+    dispatch({
+      type: BLOCK_USER_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: BLOCK_USER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+
+// Unblock user --ADMIN--
+
+export const unBlockUser = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: UNBLOCK_USER_REQUEST });
+
+   
+    const { data } = await axios.put(`/api/v1/admin/unblockuser/${id}`);
+
+    dispatch({
+      type: UNBLOCK_USER_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: UNBLOCK_USER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
 // Clear errors
 export const clearErrors = () => async (dispatch) => {
   dispatch({

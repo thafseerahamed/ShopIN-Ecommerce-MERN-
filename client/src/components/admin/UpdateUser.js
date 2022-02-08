@@ -34,7 +34,7 @@ const UpdateUser = ({ history, match }) => {
             alert.error(error);
             dispatch(clearErrors());
         }
-console.log(isUpdated);
+
         if (isUpdated) {
             alert.success('User updated successfully')
 

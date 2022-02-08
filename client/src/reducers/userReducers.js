@@ -35,6 +35,14 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
+  BLOCK_USER_REQUEST,
+  BLOCK_USER_SUCCESS,
+  BLOCK_USER_FAIL,
+  BLOCK_USER_RESET,
+  UNBLOCK_USER_REQUEST,
+  UNBLOCK_USER_SUCCESS,
+  UNBLOCK_USER_FAIL,
+  UNBLOCK_USER_RESET,
 } from "../constants/userConstatnts";
 
 export const userReducer = (
@@ -103,28 +111,61 @@ export const profileReducer = (state = {}, action) => {
     case UPDATE_PROFILE_REQUEST:
     case UPDATE_PASSWORD_REQUEST:
     case UPDATE_USER_REQUEST:
+      case BLOCK_USER_REQUEST:
+        case UNBLOCK_USER_REQUEST:
       return {
         ...state,
         loading: true,
       };
     case UPDATE_PROFILE_SUCCESS:
     case UPDATE_PASSWORD_SUCCESS:
-      case UPDATE_USER_SUCCESS:
+    case UPDATE_USER_SUCCESS:
+
       return {
         ...state,
         loading: false,
         isUpdated: action.payload,
       };
+
+      case BLOCK_USER_SUCCESS:
+
+        return {
+          ...state,
+          loading: false,
+          isBlocked: action.payload,
+        };
+
+        case UNBLOCK_USER_SUCCESS:
+
+          return {
+            ...state,
+            loading: false,
+            isBlocked: !(action.payload),
+          };
     case UPDATE_PROFILE_RESET:
     case UPDATE_PASSWORD_RESET:
-      case UPDATE_USER_RESET:
+    case UPDATE_USER_RESET:
       return {
         ...state,
         isUpdated: false,
       };
+
+      case BLOCK_USER_RESET:
+      return {
+        ...state,
+        isBlocked: false,
+      };
+
+      case UNBLOCK_USER_RESET:
+        return {
+          ...state,
+          isBlocked: true,
+        };
     case UPDATE_PROFILE_FAIL:
     case UPDATE_PASSWORD_FAIL:
-    case UPDATE_USER_FAIL:  
+    case UPDATE_USER_FAIL:
+    case BLOCK_USER_FAIL: 
+    case UNBLOCK_USER_FAIL: 
       return {
         ...state,
         loading: false,
