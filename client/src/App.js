@@ -35,6 +35,7 @@ import OrdersList from "./components/admin/OrdersList";
 import ProcessOrder from "./components/admin/ProcessOrder";
 import UsersList from "./components/admin/UsersList";
 import UpdateUser from './components/admin/UpdateUser'
+import AddNewAddress from "./components/user/AddNewAddress";
 
 function App() {
 
@@ -63,6 +64,7 @@ function App() {
         <Route path="/password/forgot" component={ForgotPassword} exact />
         <Route path="/password/reset/:token" component={NewPassword} exact />
         <Route path="/cart" component={Cart} />
+        <Route path="/address/new" component={AddNewAddress} />
   
         
         <ProtectedRoute path="/shipping" component={Shipping} exact />

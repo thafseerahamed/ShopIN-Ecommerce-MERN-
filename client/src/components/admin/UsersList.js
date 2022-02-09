@@ -12,6 +12,7 @@ import {
   blockUser,
   unBlockUser,
   clearErrors,
+ 
 } from "../../actions/userActions";
 import Sidebar from "./Sidebar";
 import {
@@ -45,6 +46,7 @@ const UsersList = ({ history }) => {
   const blockUserHandler = (id) => {
     if (window.confirm(`Block the user ?`)) {
       dispatch(blockUser(id));
+     
     }
   };
   const unBlockUserHandler = (id) => {
