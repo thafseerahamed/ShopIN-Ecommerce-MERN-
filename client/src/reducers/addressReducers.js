@@ -5,6 +5,9 @@ import {
     MY_ADDRESS_REQUEST,
     MY_ADDRESS_SUCCESS,
     MY_ADDRESS_FAIL,
+    ADDRESS_DETAILS_REQUEST,
+    ADDRESS_DETAILS_SUCCESS,
+    ADDRESS_DETAILS_FAIL,
 CLEAR_ERRORS} from "../constants/addressConstants";
 
 
@@ -72,4 +75,33 @@ export const myAddressReducer = (state = { shippingData: [] }, action) => {
             return state;
     }
   }
+  
+
+  export const addressDetailsReducer = (state = {}, action) => {
+    switch (action.type) {
+  
+      case ADDRESS_DETAILS_REQUEST:
+        return {
+          loading: true,
+        };
+      case ADDRESS_DETAILS_SUCCESS:
+        return {
+          loading: false,
+          orderAddress: action.payload,
+        };
+      case ADDRESS_DETAILS_FAIL:
+        return {
+          loading: false,
+          error: action.payload,
+        };
+      case CLEAR_ERRORS:
+        return {
+          ...state,
+          error: null,
+        };
+  
+      default:
+        return state;
+    }
+  };
   

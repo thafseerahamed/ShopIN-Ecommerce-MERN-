@@ -27,7 +27,7 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
     paidAt: Date.now(),
     user: req.user._id,
   });
-console.log(order._id);
+
   res.status(200).json({
     success: true,
     order,
@@ -117,3 +117,6 @@ exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
     success: true,
   });
 });
+
+
+

@@ -23,6 +23,8 @@
     "mongoose": "^6.1.5",
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
+    "razorpay": "^2.8.0",
+    "shortid": "^2.2.16",
     "stripe": "^8.201.0",
     "validator": "^13.7.0"
   }

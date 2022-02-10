@@ -38,10 +38,7 @@ exports.myAddress = catchAsyncErrors(async (req, res, next) => {
   
 //Get single Address  =>  /api/v1/address/:id
 exports.getSingleAddress = catchAsyncErrors(async (req, res, next) => {
-    const shippingInfo = await Address.findById(req.params.id).populate(
-      "user",
-      "name email"
-    );
+    const shippingInfo = await Address.findById(req.params.id)
   
     if (!shippingInfo) {
       return next(new ErrorHandler("No Order found with this ID", 404));

@@ -1,21 +1,22 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect,useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import Loader from "../layout/Loader";
 import MetaData from "../layout/MetaData";
 import { addItemToCart, removeItemFromCart } from "../../actions/cartActions";
-import { myAddress, clearErrors } from "../../actions/addressActions";
+import { myAddress, clearErrors, orderAddressDetails } from "../../actions/addressActions";
 
 const Cart = ({ history }) => {
   const dispatch = useDispatch();
-  const { cartItems, shippingInfo } = useSelector((state) => state.cart);
+  const alert = useAlert();
+  const { cartItems } = useSelector((state) => state.cart);
   const {
     loading,
     error,
     shippingData = [],
   } = useSelector((state) => state.shippingData);
-
+const [radio, setRadio] = useState("")
   const removeCartItemHandler = (id, name) => {
     if (window.confirm(`Delete ${name} from Cart ?`)) {
       dispatch(removeItemFromCart(id));
@@ -39,7 +40,12 @@ const Cart = ({ history }) => {
   };
 
   const checkoutHandler = () => {
-    history.push("/login?redirect=confirm");
+    if (radio === ""){
+      history.push('/cart')
+      alert.error("please select an address")
+    }else{
+    history.push(`/login?redirect=confirm/${radio}`);
+    }
   };
 
   const submitHandler = () => {
@@ -165,7 +171,8 @@ const Cart = ({ history }) => {
                 </p>
 
                 <hr />
-                <button
+            
+                 <button
                   id="checkout_btn"
                   className="btn btn-primary btn-block"
                   onClick={checkoutHandler}
@@ -189,11 +196,13 @@ const Cart = ({ history }) => {
                         <input
                           type="radio"
                           value={address._id}
+                          onChange={(e) =>setRadio(e.target.value)}
                           name="addressid"
                         />
                         <b className="ml-3">Phone:</b>
                         {address.phoneNo}
                       </p>
+                 
                       <p className="ml-4">
                         <b>Address:</b>
                         {address.address},{address.city},{address.postalCode},

@@ -16,7 +16,7 @@ import {
 } from "./reducers/userReducers";
 import { cartReducer } from "./reducers/cartReducers";
 import { myOrdersReducer, newOrderReducer, orderDetailsReducer,allOrdersReducer,orderReducer} from "./reducers/orderReducers";
-import { myAddressReducer, newAddressReducer } from "./reducers/addressReducers";
+import { addressDetailsReducer, myAddressReducer, newAddressReducer } from "./reducers/addressReducers";
 
 
 const reducer = combineReducers({
@@ -36,7 +36,8 @@ const reducer = combineReducers({
   order:orderReducer,
   allOrders:allOrdersReducer,
   shippingData:myAddressReducer,
-  shippingInfo:newAddressReducer
+  shippingInfo:newAddressReducer,
+  orderAddress: addressDetailsReducer
 });
 
 let initialState = {
