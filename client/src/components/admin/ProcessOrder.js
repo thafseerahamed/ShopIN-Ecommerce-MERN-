@@ -10,24 +10,26 @@ import {
   getOrderDetails,
   updateOrder,
   clearErrors,
+  updatePayment,
 } from "../../actions/orderActions";
 import Sidebar from "./Sidebar";
 import { UPDATE_ORDER_RESET } from "../../constants/orderConstants";
 
-const ProcessOrder = ({match}) => {
-  const [status, setStatus] = useState("");
+const ProcessOrder = ({ match }) => {
+  const [orderstatus, setOrderStatus] = useState("");
+  const [paymentstatus, setPaymentStatus] = useState("");
 
   const alert = useAlert();
   const dispatch = useDispatch();
-  const { loading, order ={} } = useSelector((state) => state.orderDetails);
- const {
+  const { loading, order = {} } = useSelector((state) => state.orderDetails);
+  const {
     shippingInfo,
     orderItems,
     paymentInfo,
     user,
     totalPrice,
     orderStatus,
-  } = order
+  } = order;
   const { error, isUpdated } = useSelector((state) => state.order);
   const orderId = match.params.id;
 
@@ -37,7 +39,7 @@ const ProcessOrder = ({match}) => {
       alert.error(error);
       dispatch(clearErrors());
     }
-    
+    console.log(orderstatus);
 
     if (isUpdated) {
       alert.success("order updated successfully");
@@ -47,9 +49,15 @@ const ProcessOrder = ({match}) => {
 
   const updateOrderHandler = (id) => {
     const formData = new FormData();
-    formData.set("status", status);
+    formData.set("orderstatus", orderstatus);
 
     dispatch(updateOrder(id, formData));
+  };
+  const updatePaymentHandler = (id) => {
+    const formData = new FormData()
+    formData.set("paymentstatus", paymentstatus);
+
+    dispatch(updatePayment(id, formData));
   };
   const shippingDetails =
     shippingInfo &&
@@ -95,11 +103,11 @@ const ProcessOrder = ({match}) => {
                   <p className={isPaid ? "greenColor" : "redColor"}>
                     <b>{isPaid ? "PAID" : "NOT PAID"}</b>
                   </p>
-
+                  {/* 
                   <h4 className="my-4">Payment ID</h4>
                   <p>
                     <b>{paymentInfo && paymentInfo.id}</b>
-                  </p>
+                  </p> */}
 
                   <h4 className="my-4">Order Status:</h4>
                   <p
@@ -112,8 +120,6 @@ const ProcessOrder = ({match}) => {
                   >
                     <b>{orderStatus}</b>
                   </p>
-
-                 
 
                   <h4 className="my-4">Order Items:</h4>
 
@@ -151,24 +157,45 @@ const ProcessOrder = ({match}) => {
                 </div>
 
                 <div className="col-12 col-lg-3 mt-5">
-                  <h4 className="my-4">Status</h4>
+                  <h4 className="my-4">Order Status</h4>
 
                   <div className="form-group">
                     <select
                       className="form-control"
-                      name="status"
-                      value={status}
-                      onChange={(e) => setStatus(e.target.value)}
+                      name="orderstatus"
+                      value={orderstatus}
+                      onChange={(e) => setOrderStatus(e.target.value)}
                     >
                       <option value="Processing">Processing</option>
                       <option value="Shipped">Shipped</option>
+                      <option value="Cancelled">Cancelled</option>
                       <option value="Delivered">Delivered</option>
+                    </select>
+                  </div>
+                  <button
+                    className="btn btn-primary btn-block"
+                    onClick={() => updateOrderHandler(order._id)}
+                  >
+                    Update Status
+                  </button>
+
+                  <h4 className="my-4">Payment Status</h4>
+
+                  <div className="form-group">
+                    <select
+                      className="form-control"
+                      name="paymentstatus"
+                      value={paymentstatus}
+                      onChange={(e) => setPaymentStatus(e.target.value)}
+                    >
+                      <option value="succeeded">Succeeded</option>
+                      <option value="not completed">Not completed</option>
                     </select>
                   </div>
 
                   <button
                     className="btn btn-primary btn-block"
-                    onClick={() => updateOrderHandler(order._id)}
+                    onClick={() => updatePaymentHandler(order._id)}
                   >
                     Update Status
                   </button>

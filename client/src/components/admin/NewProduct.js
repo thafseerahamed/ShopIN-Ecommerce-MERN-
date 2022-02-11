@@ -7,6 +7,7 @@ import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { newProduct, clearErrors } from "../../actions/productActions";
 import Sidebar from "./Sidebar";
+import { allCategory } from "../../actions/categoryActions";
 
 const NewProduct = ({ history }) => {
   const [name, setName] = useState("");
@@ -16,20 +17,17 @@ const NewProduct = ({ history }) => {
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
-
-  const categories = [
-    "Electronics",
-    "Laptops",
-    "Cameras",
-    "Accessories",
-    "Headphones",
-  ];
+  const {  categories = []} = useSelector(state => state.allCategories);
+ 
   const alert = useAlert();
   const dispatch = useDispatch();
 
   const { loading, error, success } = useSelector((state) => state.newProduct);
 
   useEffect(() => {
+    dispatch(allCategory());
+
+
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
@@ -95,7 +93,7 @@ const NewProduct = ({ history }) => {
                 <h1 className="mb-4">New Product</h1>
 
                 <div className="form-group">
-                  <label for="name_field">Name</label>
+                  <label htmlFor="name_field">Name</label>
                   <input
                     type="text"
                     id="name_field"
@@ -106,7 +104,7 @@ const NewProduct = ({ history }) => {
                 </div>
 
                 <div className="form-group">
-                  <label for="price_field">Price</label>
+                  <label htmlFor="price_field">Price</label>
                   <input
                     type="text"
                     id="price_field"
@@ -117,7 +115,7 @@ const NewProduct = ({ history }) => {
                 </div>
 
                 <div className="form-group">
-                  <label for="description_field">Description</label>
+                  <label htmlFor="description_field">Description</label>
                   <textarea
                     className="form-control"
                     id="description_field"
@@ -132,18 +130,18 @@ const NewProduct = ({ history }) => {
                   <select
                     className="form-control"
                     id="category_field"
-                    value={category}
+                    value={category.name}
                     onChange={(e) => setCategory(e.target.value)}
                   >
-                    {categories.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
+                    {categories && categories.map((category) => (
+                      <option key={category.name} value={category.name}>
+                        {category.name}
                       </option>
                     ))}
                   </select>
                 </div>
                 <div className="form-group">
-                  <label for="stock_field">Stock</label>
+                  <label htmlFor="stock_field">Stock</label>
                   <input
                     type="number"
                     id="stock_field"
@@ -165,7 +163,7 @@ const NewProduct = ({ history }) => {
                       onChange={onChange}
                       multiple
                     />
-                    <label className="custom-file-label" for="customFile">
+                    <label className="custom-file-label" htmlFor="customFile">
                       Choose Images
                     </label>
                   </div>

@@ -36,6 +36,8 @@ import ProcessOrder from "./components/admin/ProcessOrder";
 import UsersList from "./components/admin/UsersList";
 import UpdateUser from './components/admin/UpdateUser'
 import AddNewAddress from "./components/user/AddNewAddress";
+import NewCategory from "./components/admin/NewCategory";
+import CategoryDetails from "./components/admin/CategoryDetails";
 
 function App() {
 
@@ -82,6 +84,8 @@ function App() {
         <ProtectedRoute path="/me" component={Profile} exact />
        
         <ProtectedRoute path="/me/update" component={ProfileUpdate} exact />
+        <ProtectedRoute path="/admin/category" component={NewCategory} exact />
+        <ProtectedRoute path="/admin/categories" component={CategoryDetails} exact />
         <ProtectedRoute
           path="/password/update"
           component={UpdatePassword}

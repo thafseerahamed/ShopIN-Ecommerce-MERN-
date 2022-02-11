@@ -11,6 +11,7 @@ import {
   clearErrors,
 } from "../../actions/productActions";
 import Sidebar from "./Sidebar";
+import { allCategory } from "../../actions/categoryActions";
 
 const UpdateProduct = ({ history, match }) => {
   const [name, setName] = useState("");
@@ -22,14 +23,7 @@ const UpdateProduct = ({ history, match }) => {
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  const categories = [
-    "Electronics",
-    "Laptops",
-    "Cameras",
-    "Accessories",
-    "Headphones",
-  ];
-
+  const {  categories = []} = useSelector(state => state.allCategories);
   const alert = useAlert();
   const dispatch = useDispatch();
   const { error, product } = useSelector((state) => state.productDetails);
@@ -38,9 +32,11 @@ const UpdateProduct = ({ history, match }) => {
     error: updateError,
     isUpdated,
   } = useSelector((state) => state.product);
+
   const productId = match.params.id;
 
   useEffect(() => {
+    dispatch(allCategory());
     if (product && product._id !== productId) {
       dispatch(getProductDetails(productId));
     } else {
@@ -89,7 +85,7 @@ const UpdateProduct = ({ history, match }) => {
     images.forEach((image) => {
       formData.append("images", image);
     });
-
+    console.log(category);  
     dispatch(updateProduct(product._id, formData));
   };
 
@@ -173,9 +169,9 @@ const UpdateProduct = ({ history, match }) => {
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
                   >
-                    {categories.map((category) => (
-                      <option key={category} value={category}>
-                        {category}
+                    {categories && categories.map((category) => (
+                      <option key={category.name} value={category.name}>
+                        {category.name}
                       </option>
                     ))}
                   </select>

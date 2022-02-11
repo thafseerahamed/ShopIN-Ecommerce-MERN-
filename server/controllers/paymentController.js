@@ -2,7 +2,8 @@ const catchAsyncErrors = require('../middlewares/catchAsyncErrors')
 const Razorpay =require('razorpay')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 const shortid = require('shortid')
-
+const Order = require("../models/order");
+const ErrorHandler = require("../utils/errorHandler");
 //Process stripe payment   =>  /api/v1/payment/process
 exports.processPayment = catchAsyncErrors(async (req, res, next) => {
 
@@ -69,17 +70,18 @@ exports.sendStripeApi = catchAsyncErrors(async (req, res, next) => {
 //   }
 // })
 exports.razorpayPayment = catchAsyncErrors(async (req, res, next) => {
-console.log(req.body);
+
     const payment_capture = 1
     const options = {
             amount: req.body.totalPrice* 100,
             currency:req.body.currency,
             receipt: shortid.generate(),
-            payment_capture:payment_capture
+            payment_capture:payment_capture,
           }
-
+     
     try {
             const response = await razorpay.orders.create(options)
+       
             res.status(200).json({
               id: response.id,
               currency: response.currency,
@@ -90,3 +92,19 @@ console.log(req.body);
           }
     })
 
+    exports.updatePayment = catchAsyncErrors(async (req, res, next) => {
+      const order = await Order.findById(req.params.id);
+      if ( order.paymentInfo.status=== "succeeded") {
+        return next(new ErrorHandler("order already paid", 400));
+      }
+     console.log(req.body)
+     
+    
+      order.paymentInfo.status = req.body.paymentstatus
+  
+    
+      await order.save({ validateBeforeSave: false });
+      res.status(200).json({
+        success: true,
+      });
+    });

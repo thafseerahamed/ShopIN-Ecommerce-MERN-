@@ -15,6 +15,10 @@ import {
   UPDATE_ORDER_SUCCESS,
   UPDATE_ORDER_FAIL,
   UPDATE_ORDER_RESET,
+  UPDATE_PAYMENT_REQUEST,
+  UPDATE_PAYMENT_SUCCESS,
+  UPDATE_PAYMENT_FAIL,
+  UPDATE_PAYMENT_RESET,
   DELETE_ORDER_REQUEST,
   DELETE_ORDER_SUCCESS,
   DELETE_ORDER_FAIL,
@@ -144,7 +148,7 @@ export const allOrdersReducer = (state = { orders: [] }, action) => {
 export const orderReducer = (state = {}, action) => {
   switch (action.type) {
 
-  
+      case UPDATE_PAYMENT_REQUEST:
       case UPDATE_ORDER_REQUEST:
         case DELETE_ORDER_REQUEST:
           return {
@@ -154,6 +158,7 @@ export const orderReducer = (state = {}, action) => {
 
 
       case UPDATE_ORDER_SUCCESS:
+        case UPDATE_PAYMENT_SUCCESS:
           return {
               ...state,
               loading: false,
@@ -167,7 +172,7 @@ export const orderReducer = (state = {}, action) => {
             loading: false,
             isDeleted: action.payload
         }
-
+        case UPDATE_PAYMENT_FAIL:
       case UPDATE_ORDER_FAIL:
         case DELETE_ORDER_FAIL:
           return {
@@ -176,7 +181,7 @@ export const orderReducer = (state = {}, action) => {
           }
 
     
-
+          case UPDATE_PAYMENT_RESET:
       case UPDATE_ORDER_RESET:
           return {
               ...state,

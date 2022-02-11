@@ -33,8 +33,8 @@ const ConfirmOrder = ({ history, match }) => {
   const phoneNo = orderAddress && orderAddress.phoneNo;
   const country = orderAddress && orderAddress.country;
 
-  const paymentMethods = ["razorpay", "stripes", "cashOnDelivery"];
-  const [paymentMethod, setPaymentMethod] = useState("stripes");
+  const paymentMethods = ["razorpay", "stripe", "cashOnDelivery"];
+  const [paymentMethod, setPaymentMethod] = useState("stripe");
 
   function loadScript(src) {
     return new Promise((resolve) => {
@@ -51,7 +51,7 @@ const ConfirmOrder = ({ history, match }) => {
   }
  
 
-  async function showRazorpay() {
+  async function showRazorpay(order) {
     const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js')
 
     if (!res) {
@@ -83,7 +83,7 @@ const ConfirmOrder = ({ history, match }) => {
             alert.error(error.response)
           
          }
-console.log(resp);
+
     const options = {
       key: 'rzp_test_tVTxBmKirg3ns6',
       currency: resp.data.currency,
@@ -93,7 +93,7 @@ console.log(resp);
       image: '',
       handler: function (response) {
        
-    
+        dispatch(createOrder(order))
         history.push('/success')
         alert.success('Transaction successful')
       },
@@ -119,7 +119,7 @@ console.log(resp);
     sessionStorage.setItem("orderInfo", JSON.stringify(data));
     const orderc = {
         orderItems:cartItems,
-        
+        paymentInfo:{status:"not completed"},
         shippingInfo
     }
    const cashOnD =() =>{
@@ -147,11 +147,11 @@ console.log(resp);
         amount: Math.round(orderInfo.totalPrice * 100)
     }
     
-    if (paymentMethod==="stripes"){
+    if (paymentMethod==="stripe"){
         history.push("/payment");
     }else if (paymentMethod==="razorpay"){
-      showRazorpay()
-      dispatch(createOrder(order))
+      showRazorpay(order)
+    
     }else if (paymentMethod==="cashOnDelivery"){
         cashOnD()
     }

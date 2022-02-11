@@ -13,6 +13,10 @@ import {
   ALL_ORDERS_REQUEST,
   ALL_ORDERS_SUCCESS,
   ALL_ORDERS_FAIL,
+  UPDATE_PAYMENT_REQUEST,
+  UPDATE_PAYMENT_SUCCESS,
+  UPDATE_PAYMENT_FAIL,
+  UPDATE_PAYMENT_RESET,
   UPDATE_ORDER_REQUEST,
   UPDATE_ORDER_SUCCESS,
   UPDATE_ORDER_FAIL,
@@ -151,6 +155,33 @@ export const deleteOrder = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: DELETE_ORDER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+
+
+// update payment
+
+export const updatePayment = (id,orderData) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_PAYMENT_REQUEST });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const { data } = await axios.put(`/api/v1/admin/payment/${id}`, orderData, config);
+
+    dispatch({
+      type: UPDATE_PAYMENT_SUCCESS,
+      payload: data.success
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PAYMENT_FAIL,
       payload: error.response.data.message,
     });
   }
