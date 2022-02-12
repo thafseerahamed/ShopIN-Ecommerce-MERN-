@@ -87,8 +87,26 @@ const ProductDetails = () => {
               <span id="no_of_reviews">({product.numOfReviews} Reviews)</span>
 
               <hr />
+{/* 
+              <p id="product_price">₹{product.price}</p> */}
 
-              <p id="product_price">₹{product.price}</p>
+{product.discountPrice === 0 ? (
+            <p className="product_value">₹{product.price}</p>
+          ) : (
+            <div className="row">
+              <div className="col-3">
+              <strike className="product_value">₹{product.price}</strike>
+              
+              <p className="product_value">₹{product.netPrice}</p>
+              </div>
+              <div className="col-9">
+              <b className="product_per text-success">
+          {product.discountPrice === 0 ? "" : `${product.discountPrice}% Offer`}
+        </b>
+              </div>
+            </div>
+          )}
+
               <div className="stockCounter d-inline">
                 <span className="btn btn-danger minus" onClick={decreaseQty}>
                   -

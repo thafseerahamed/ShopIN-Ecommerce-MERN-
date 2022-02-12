@@ -68,6 +68,7 @@ export const getProductDetails = (id) => async (dispatch) => {
 
 // new product 
 export const newProduct = (productData) => async (dispatch) => {
+ 
   try {
 
       dispatch({ type: NEW_PRODUCT_REQUEST })
@@ -77,7 +78,7 @@ export const newProduct = (productData) => async (dispatch) => {
               'Content-Type': 'application/json'
           }
       }
-
+    
       const { data } = await axios.post(`/api/v1/admin/product/new`, productData, config)
 
       dispatch({

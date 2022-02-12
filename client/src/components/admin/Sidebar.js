@@ -32,9 +32,9 @@ const Sidebar = () => {
                         <Link to="/admin/users"><i className="fa fa-users"></i> Users</Link>
                     </li>
                     <li>
-                        <a href="#productSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"><i
+                        <a href="#productSubmen" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"><i
                             className="fa fa-product-hunt"></i> Categories</a>
-                        <ul className="collapse list-unstyled" id="productSubmenu">
+                        <ul className="collapse list-unstyled" id="productSubmen">
                             <li>
                             <Link to="/admin/categories"><i className="fa fa-clipboard"></i> All</Link>
                             </li>
@@ -44,7 +44,19 @@ const Sidebar = () => {
                             </li>
                         </ul>
                     </li>
-                
+                    <li>
+                        <a href="#productSubme" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"><i
+                            className="fa fa-plus-square"></i> Offers</a>
+                        <ul className="collapse list-unstyled" id="productSubme">
+                            <li>
+                            <Link to="/admin/offers"><i className="fa fa-clipboard"></i> All</Link>
+                            </li>
+            
+                            <li>
+                            <Link to="/admin/offer"><i className="fa fa-plus"></i> Create</Link>
+                            </li>
+                        </ul>
+                    </li>
             
                 </ul>
                 </nav>

@@ -6,6 +6,7 @@ const cloudinary = require("cloudinary")
 
 //Create new product  =>  /api/v1/admin/product/new
 exports.newProduct = catchAsyncErrors(async (req, res, next) => {
+  
 
   let images = []
   if (typeof req.body.images === 'string'){

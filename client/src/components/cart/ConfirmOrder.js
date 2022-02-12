@@ -18,14 +18,19 @@ const ConfirmOrder = ({ history, match }) => {
   const id = match.params.id;
   const alert = useAlert();
   // Item prices
+
   const itemsPrice = cartItems.reduce(
     (acc, item) => acc + item.quantity * item.price,
+    0
+  );
+  const itemDiscount = cartItems.reduce(
+    (acc, item) => acc + item.quantity * (item.price*item.discountPrice)/100,
     0
   );
   const shippingPrice = itemsPrice > 1000 ? 0 : 120;
   const taxPrice = Number((0.05 * itemsPrice).toFixed(2));
 
-  const totalPrice = (itemsPrice + shippingPrice + taxPrice).toFixed(2);
+  const totalPrice = (itemsPrice + shippingPrice + taxPrice - itemDiscount).toFixed(2);
   const dispatch = useDispatch();
   const address = orderAddress && orderAddress.address;
   const city = orderAddress && orderAddress.city;
@@ -210,10 +215,14 @@ const ConfirmOrder = ({ history, match }) => {
                       </div>
 
                       <div className="col-4 col-lg-4 mt-4 mt-lg-0">
-                        <p>
+               {item.discountPrice === 0 ?<p>
                           {item.quantity}x {item.price} ={" "}
                           <b>{item.quantity * item.price}</b>
-                        </p>
+                        </p>:
+                        <p>
+                        {item.quantity}x {item.netPrice} ={" "}
+                        <b>{item.quantity * item.netPrice}</b>
+                      </p>}         
                       </div>
                     </div>
                   </div>
@@ -231,6 +240,10 @@ const ConfirmOrder = ({ history, match }) => {
             <p>
               Subtotal:{" "}
               <span className="order-summary-values">₹ {itemsPrice}</span>
+            </p>
+            <p>
+              Discount:{" "}
+              <span className="order-summary-values">₹ {itemDiscount}</span>
             </p>
             <p>
               Shipping:{" "}

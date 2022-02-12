@@ -74,6 +74,16 @@ const productSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  discountPrice: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+  netPrice: {
+    type: Number,
+    
+    
+  },
   createdAt: {
     type: Date,
     default: Date.now,

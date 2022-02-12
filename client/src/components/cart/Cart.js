@@ -1,11 +1,15 @@
-import React, { Fragment, useEffect,useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import Loader from "../layout/Loader";
 import MetaData from "../layout/MetaData";
 import { addItemToCart, removeItemFromCart } from "../../actions/cartActions";
-import { myAddress, clearErrors, orderAddressDetails } from "../../actions/addressActions";
+import {
+  myAddress,
+  clearErrors,
+  orderAddressDetails,
+} from "../../actions/addressActions";
 
 const Cart = ({ history }) => {
   const dispatch = useDispatch();
@@ -16,13 +20,20 @@ const Cart = ({ history }) => {
     error,
     shippingData = [],
   } = useSelector((state) => state.shippingData);
-const [radio, setRadio] = useState("")
+  const [radio, setRadio] = useState("");
   const removeCartItemHandler = (id, name) => {
     if (window.confirm(`Delete ${name} from Cart ?`)) {
       dispatch(removeItemFromCart(id));
     }
   };
-
+  const itemsPrice = cartItems.reduce(
+    (acc, item) => acc + item.quantity * item.price,
+    0
+  );
+  const itemDiscount = cartItems.reduce(
+    (acc, item) => acc + item.quantity * (item.price*item.discountPrice)/100,
+    0
+  );
   const increaseQty = (id, quantity, stock) => {
     const newQty = quantity + 1;
 
@@ -40,11 +51,11 @@ const [radio, setRadio] = useState("")
   };
 
   const checkoutHandler = () => {
-    if (radio === ""){
-      history.push('/cart')
-      alert.error("please select an address")
-    }else{
-    history.push(`/login?redirect=confirm/${radio}`);
+    if (radio === "") {
+      history.push("/cart");
+      alert.error("please select an address");
+    } else {
+      history.push(`/login?redirect=confirm/${radio}`);
     }
   };
 
@@ -92,7 +103,12 @@ const [radio, setRadio] = useState("")
                       </div>
 
                       <div className="col-4 col-lg-2 mt-4 mt-lg-0">
-                        <p id="card_item_price">₹ {item.price}</p>
+                        <p id="card_item_price">
+                          ₹{" "}
+                          {item.discountPrice === 0
+                            ? item.price
+                            : item.netPrice}
+                        </p>
                       </div>
 
                       <div className="col-4 col-lg-3 mt-4 mt-lg-0">
@@ -157,6 +173,7 @@ const [radio, setRadio] = useState("")
                     (Units)
                   </span>
                 </p>
+
                 <p>
                   Est. total:{" "}
                   <span className="order-summary-values">
@@ -169,10 +186,34 @@ const [radio, setRadio] = useState("")
                       .toFixed(2)}
                   </span>
                 </p>
-
+                <p>
+                  Discount total:{" "}
+                  <span className="order-summary-values">
+                    ₹
+                    {cartItems
+                      .reduce(
+                        (acc, item) =>
+                          acc +
+                          Number(
+                            (item.quantity *
+                              (item.price * item.discountPrice)) /
+                              100
+                          ),
+                        0
+                      )
+                      .toFixed(2)}
+                  </span>
+                </p>
+                <p>
+                  Net total:{" "}
+                  <span className="order-summary-values">
+                    ₹
+                   {(itemsPrice-itemDiscount).toFixed(2)}
+                  </span>
+                </p>
                 <hr />
-            
-                 <button
+
+                <button
                   id="checkout_btn"
                   className="btn btn-primary btn-block"
                   onClick={checkoutHandler}
@@ -188,7 +229,9 @@ const [radio, setRadio] = useState("")
           ) : (
             <div className="row d-flex justify-content-between">
               <div className="col-12 col-lg-8  adress-details">
-                <h4 className="mb-4"><b>Addresses</b></h4>
+                <h4 className="mb-4">
+                  <b>Addresses</b>
+                </h4>
                 {shippingData &&
                   shippingData.map((address) => (
                     <div key={address._id}>
@@ -196,13 +239,13 @@ const [radio, setRadio] = useState("")
                         <input
                           type="radio"
                           value={address._id}
-                          onChange={(e) =>setRadio(e.target.value)}
+                          onChange={(e) => setRadio(e.target.value)}
                           name="addressid"
                         />
                         <b className="ml-3">Phone:</b>
                         {address.phoneNo}
                       </p>
-                 
+
                       <p className="ml-4">
                         <b>Address:</b>
                         {address.address},{address.city},{address.postalCode},

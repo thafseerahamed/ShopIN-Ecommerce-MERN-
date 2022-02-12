@@ -22,7 +22,7 @@ const OrdersList = ({ history}) => {
      orders=[],
     } = useSelector((state) => state.allOrders);
     const {isDeleted} = useSelector(state => state.order)
-console.log(orders);
+
   
   
     useEffect(() => {

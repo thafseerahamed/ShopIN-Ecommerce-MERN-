@@ -18,6 +18,7 @@ import { cartReducer } from "./reducers/cartReducers";
 import { myOrdersReducer, newOrderReducer, orderDetailsReducer,allOrdersReducer,orderReducer} from "./reducers/orderReducers";
 import { addressDetailsReducer, myAddressReducer, newAddressReducer } from "./reducers/addressReducers";
 import { allCategoryReducer, newCategoryReducer } from "./reducers/categoryReducers";
+import { allOffersReducer, newOfferReducer, offerReducer } from "./reducers/offerReducers";
 
 
 const reducer = combineReducers({
@@ -40,7 +41,10 @@ const reducer = combineReducers({
   shippingInfo:newAddressReducer,
   orderAddress: addressDetailsReducer,
   newCategory:newCategoryReducer,
-  allCategories:allCategoryReducer
+  allCategories:allCategoryReducer,
+  newOffer: newOfferReducer,
+  allOffers: allOffersReducer,
+  offer:offerReducer,
 });
 
 let initialState = {

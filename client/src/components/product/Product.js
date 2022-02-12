@@ -5,6 +5,9 @@ const Product = ({ product, col }) => {
   return (
     <div className={`col-sm-12 col-md-6 col-lg-${col} my-3`}>
       <div className="card p-3 rounded">
+        <b className="card-text text-success">
+          {product.discountPrice === 0 ? "" : `${product.discountPrice}% Offer`}
+        </b>
         <img
           className="card-img-top mx-auto img-fluid"
           src={product.images[0].url}
@@ -22,7 +25,17 @@ const Product = ({ product, col }) => {
             </div>
             <span id="no_of_reviews">{product.numOfReviews} Reviews</span>
           </div>
-          <p className="card-text">₹{product.price}</p>
+          {product.discountPrice === 0 ? (
+            <p className="card-text">₹{product.price}</p>
+          ) : (
+            <div>
+              <strike className="card-text">₹{product.price}</strike>
+              
+              <p className="card-text">₹{product.netPrice}</p>
+           
+            </div>
+          )}
+
           <Link
             to={`/product/${product._id}`}
             id="view_btn"

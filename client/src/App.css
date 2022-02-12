@@ -242,7 +242,12 @@ footer {
 .cart-item a {
   color: grey;
 }
-
+.product_value {
+  font-size: 2rem;
+}
+.product_per {
+  font-size: 1.5rem;
+}
 #delete_cart_item {
   color: red;
   background: white;

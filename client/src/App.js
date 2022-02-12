@@ -38,6 +38,8 @@ import UpdateUser from './components/admin/UpdateUser'
 import AddNewAddress from "./components/user/AddNewAddress";
 import NewCategory from "./components/admin/NewCategory";
 import CategoryDetails from "./components/admin/CategoryDetails";
+import CreateOffer from "./components/admin/CreateOffer";
+import AllOffers from "./components/admin/AllOffers";
 
 function App() {
 
@@ -86,6 +88,8 @@ function App() {
         <ProtectedRoute path="/me/update" component={ProfileUpdate} exact />
         <ProtectedRoute path="/admin/category" component={NewCategory} exact />
         <ProtectedRoute path="/admin/categories" component={CategoryDetails} exact />
+        <ProtectedRoute path="/admin/offer" component={CreateOffer} exact />
+        <ProtectedRoute path="/admin/offers" component={AllOffers} exact />
         <ProtectedRoute
           path="/password/update"
           component={UpdatePassword}

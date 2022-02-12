@@ -1,5 +1,6 @@
 const express = require("express");
 const { newCategory, allCategories } = require("../controllers/categoryControllers");
+const { addOffer, getAllOffers, deleteOffer } = require("../controllers/offerControllers");
 const router = express.Router();
 
 const {
@@ -31,6 +32,10 @@ router
 
 router.route("/admin/category/new").post(isAuthenticatedUser,authorizeRoles("admin"),newCategory)
 router.route("/admin/categories").get(isAuthenticatedUser,authorizeRoles("admin"),allCategories)
+
+router.route("/admin/offer/new").post(isAuthenticatedUser, authorizeRoles("admin"),addOffer)
+router.route("/admin/offers").get(isAuthenticatedUser, authorizeRoles("admin"),getAllOffers)
+router.route("/admin/offer/delete/:id").delete(isAuthenticatedUser, authorizeRoles("admin"),deleteOffer)
 
 router.route("/review").put(isAuthenticatedUser, createProductReview);
 router.route("/reviews").get(isAuthenticatedUser, getProductReviews);
