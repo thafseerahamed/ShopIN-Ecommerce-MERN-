@@ -8,6 +8,14 @@ import {
     ADDRESS_DETAILS_REQUEST,
     ADDRESS_DETAILS_SUCCESS,
     ADDRESS_DETAILS_FAIL,
+    DELETE_ADDRESS_REQUEST,
+    DELETE_ADDRESS_SUCCESS,
+    DELETE_ADDRESS_FAIL,
+    DELETE_ADDRESS_RESET,
+    UPDATE_ADDRESS_REQUEST,
+    UPDATE_ADDRESS_SUCCESS,
+    UPDATE_ADDRESS_RESET,
+    UPDATE_ADDRESS_FAIL,
 CLEAR_ERRORS} from "../constants/addressConstants";
 
 
@@ -105,3 +113,62 @@ export const myAddressReducer = (state = { shippingData: [] }, action) => {
     }
   };
   
+
+  
+export const addressReducer = (state = {}, action) => {
+  switch (action.type) {
+
+
+      case UPDATE_ADDRESS_REQUEST:
+        case DELETE_ADDRESS_REQUEST:
+          return {
+              ...state,
+              loading: true
+          }
+
+
+      case UPDATE_ADDRESS_SUCCESS:
+
+          return {
+              ...state,
+              loading: false,
+              isUpdated: action.payload
+          }
+
+          
+      case DELETE_ADDRESS_SUCCESS:
+        return {
+            ...state,
+            loading: false,
+            isDeleted: action.payload
+        }
+
+      case UPDATE_ADDRESS_FAIL:
+        case DELETE_ADDRESS_FAIL:
+          return {
+              ...state,
+              error: action.payload
+          }
+
+
+      case UPDATE_ADDRESS_RESET:
+          return {
+              ...state,
+              isUpdated: false
+          }
+
+          case DELETE_ADDRESS_RESET:
+            return {
+                ...state,
+                isDeleted: false
+            }
+      case CLEAR_ERRORS:
+          return {
+              ...state,
+              error: null
+          }
+
+      default:
+          return state
+  }
+}

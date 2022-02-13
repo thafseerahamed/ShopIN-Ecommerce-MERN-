@@ -1,6 +1,6 @@
 const express = require("express");
 const { route } = require("express/lib/router");
-const { newAddress, myAddress, getSingleAddress } = require("../controllers/addressController");
+const { newAddress, myAddress, getSingleAddress, deleteAddress, updateAddress } = require("../controllers/addressController");
 const {
   registerUser,
   loginUser,
@@ -49,4 +49,6 @@ router.route("/admin/unblockuser/:id").put(isAuthenticatedUser,authorizeRoles("a
 router.route("/address/new").post(isAuthenticatedUser,newAddress) 
 router.route("/address/me").get(isAuthenticatedUser,myAddress)   
 router.route("/address/:id").get(isAuthenticatedUser,getSingleAddress)   
+                            .delete(isAuthenticatedUser,deleteAddress)
+                            .put(isAuthenticatedUser,updateAddress)  
 module.exports = router;

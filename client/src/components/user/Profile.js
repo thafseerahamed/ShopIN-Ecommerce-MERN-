@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "../layout/Loader";
 import MetaData from "../layout/MetaData";
-const Profile = () => {
+const Profile = ({ history}) => {
   const { user, loading } = useSelector((state) => state.user);
+
+
   return (
     <Fragment>
       {loading ? (
@@ -41,11 +43,11 @@ const Profile = () => {
 
               <h4>Joined On</h4>
               <p>{String(user.createdAt).substring(0, 10)}</p>
-              {user.role !== "admin" && (
-                <Link to="/orders/me" className="btn btn-danger btn-block mt-5">
-                  My Orders
+            
+                <Link to="/address/me" className="btn btn-danger btn-block mt-5">
+                  Manage Shipping Details
                 </Link>
-              )}
+         
 
               <Link
                 to="/password/update"

@@ -9,7 +9,9 @@ const Sidebar = () => {
                     <li>
                         <Link to="/dashboard"><i className="fa fa-tachometer"></i> Dashboard</Link>
                     </li>
-            
+                    <li>
+                        <Link to="/admin/report"><i className="fa fa-tachometer"></i> Sales Report</Link>
+                    </li>
                     <li>
                         <a href="#productSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"><i
                             className="fa fa-product-hunt"></i> Products</a>

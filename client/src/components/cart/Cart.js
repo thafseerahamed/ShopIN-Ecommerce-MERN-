@@ -60,9 +60,10 @@ const Cart = ({ history }) => {
   };
 
   const submitHandler = () => {
-    history.push("/address/new");
+    history.push("/address/me");
   };
   useEffect(() => {
+    
     dispatch(myAddress());
 
     if (error) {
@@ -254,7 +255,7 @@ const Cart = ({ history }) => {
                     </div>
                   ))}
                 <button className="btn review-btn" onClick={submitHandler}>
-                  Add new address
+                  Go to profile to add new Address
                 </button>
               </div>
             </div>

@@ -40,6 +40,9 @@ import NewCategory from "./components/admin/NewCategory";
 import CategoryDetails from "./components/admin/CategoryDetails";
 import CreateOffer from "./components/admin/CreateOffer";
 import AllOffers from "./components/admin/AllOffers";
+import SaleReport from "./components/admin/SaleReport";
+import AddressManage from "./components/user/AddressManage";
+import UpdateAddress from "./components/user/UpdateAddress";
 
 function App() {
 
@@ -67,8 +70,11 @@ function App() {
         <Route path="/register" component={Register} />
         <Route path="/password/forgot" component={ForgotPassword} exact />
         <Route path="/password/reset/:token" component={NewPassword} exact />
-        <Route path="/cart" component={Cart} />
+        <ProtectedRoute path="/cart" component={Cart} />
         <Route path="/address/new" component={AddNewAddress} />
+        <Route path="/address/me" component={AddressManage} />
+        <Route path="/address/update/:id" component={UpdateAddress} />
+  
   
         
         <ProtectedRoute path="/shipping" component={Shipping} exact />
@@ -90,6 +96,7 @@ function App() {
         <ProtectedRoute path="/admin/categories" component={CategoryDetails} exact />
         <ProtectedRoute path="/admin/offer" component={CreateOffer} exact />
         <ProtectedRoute path="/admin/offers" component={AllOffers} exact />
+        <ProtectedRoute path="/admin/report" component={SaleReport} exact />
         <ProtectedRoute
           path="/password/update"
           component={UpdatePassword}

@@ -9,13 +9,14 @@ import MetaData from "../layout/MetaData";
 import { Carousel } from "react-bootstrap";
 import { addItemToCart } from "../../actions/cartActions";
 
-const ProductDetails = () => {
+const ProductDetails = ({ history}) => {
   const [quantity, setQuantity] = useState(1);
   const alert = useAlert();
   const dispatch = useDispatch();
   const { loading, error, product } = useSelector(
     (state) => state.productDetails
   );
+  const { isAuthenticated } = useSelector((state) => state.user);
   const { id } = useParams();
   useEffect(() => {
     dispatch(getProductDetails(id));
@@ -26,10 +27,13 @@ const ProductDetails = () => {
     }
   }, [dispatch, alert, error, id]);
 
-  const addToCart = () => {
+  const addToCart = (id) => {
+    if(isAuthenticated){
+      dispatch(addItemToCart(id,quantity))
+      alert.success('Item added to Cart')
+    }
     
-    dispatch(addItemToCart(id,quantity))
-    alert.success('Item added to Cart')
+    history.push(`/login?redirect=product/${id}`)
   };
 
   const increaseQty = () => {
@@ -128,7 +132,7 @@ const ProductDetails = () => {
                 id="cart_btn"
                 className="btn btn-primary d-inline ml-4"
                 disabled={product.stock === 0}
-                onClick={addToCart}
+                onClick={() => addToCart(product._id)}
               >
                 Add to Cart
               </button>
