@@ -5,60 +5,95 @@ import {countries} from 'countries-list'
 
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateUser, getUserDetails, clearErrors } from '../../actions/userActions'
+
 import { UPDATE_ADDRESS_RESET } from "../../constants/addressConstants"
-import { orderAddressDetails } from '../../actions/addressActions'
+import { orderAddressDetails, updateAddress,clearErrors } from '../../actions/addressActions'
+import Loader from '../layout/Loader'
 
 const UpdateAddress = ({match,history}) => {
-
+    const { orderAddress,error,loading:load } = useSelector(state => state.orderAddress)
     const countryList = Object.values(countries)
- 
-    const [address, setAddress] = useState("");
-    const [city, setCity] = useState("");
-    const [postalCode, setPostalCode] = useState("");
-    const [phoneNo, setPhoneNo] = useState("");
-    const [country, setCountry] = useState("");
-
+    const ad = orderAddress && orderAddress.address 
+    const po = orderAddress && orderAddress.postalCode
+    const ph = orderAddress && orderAddress.phoneNo
+    const cou = orderAddress && orderAddress.country
+    const ci = orderAddress && orderAddress.city
+    const [address, setAddress] = useState(`${ad}`)
+    const [postalCode, setPostalCode] = useState(`${po}`);
+    const [phoneNo, setPhoneNo] = useState(`${ph}`);
+    const [country, setCountry] = useState(`${cou}`);
+    const [city, setCity] = useState(`${ci}`);
     const alert = useAlert();
     const dispatch = useDispatch();
 
     // const { isUpdated,updateError } = useSelector(state => state.UpdateAddress);
-    const { orderAddress } = useSelector(state => state.orderAddress)
 
+const { isUpdated, error : updateError,loading} = useSelector((state) => state.updateAddress)
     const addressId = match.params.id;
+    const submitHandler = (e) => {
+        e.preventDefault();
+    
+        const formData = new FormData();
+        formData.set("address", address);
+        formData.set("city", city);
+        formData.set("postalCode", postalCode);
+        formData.set("phoneNo", phoneNo);
+        formData.set("country", country);
+      
+        dispatch(updateAddress(addressId,formData));
+        // if (error) {
+        //     alert.error(error);
+        //     dispatch(clearErrors());
+        //     history.push('/address/update/')
+        //   }else{
+        //       history.push('/admin/offers')
+        //   }
+      };
 
 
     useEffect(() => {
     
     
           dispatch(orderAddressDetails(addressId));
+
+        //   if (orderAddress && orderAddress._id !== addressId) {
+        //     dispatch(orderAddressDetails(addressId));
+        //   } else {
+            //    setAddress(orderAddress && orderAddress.address);
+            //   setCity(orderAddress && orderAddress.city);
+            //    setPostalCode(orderAddress && orderAddress.postalCode);
+            
+            //  setPhoneNo(orderAddress && orderAddress.phoneNo);
+            //  setCountry(orderAddress && orderAddress.country);
+         
+        //   }
      
-          setAddress(orderAddress && orderAddress.address);
-          setCity(orderAddress && orderAddress.city);
-          setPostalCode(orderAddress && orderAddress.postalCode);
+        //   setAddress(orderAddress && orderAddress.address);
+        //   setCity(orderAddress && orderAddress.city);
+        //   setPostalCode(orderAddress && orderAddress.postalCode);
         
-          setPhoneNo(orderAddress && orderAddress.phoneNo);
-          setCountry(orderAddress && orderAddress.country);
+        //   setPhoneNo(orderAddress && orderAddress.phoneNo);
+        //   setCountry(orderAddress && orderAddress.country);
      
        
-        // if (updateError) {
-        //   alert.error(updateError);
-        //   dispatch(clearErrors());
-        // }
+        if (updateError) {
+          alert.error(updateError);
+          dispatch(clearErrors());
+        }
     
-        // if (isUpdated) {
-        //   history.push("/admin/products");
-        //   alert.success("product updated successfully");
-        //   dispatch({ type: UPDATE_ADDRESS_RESET });
-        // }
+        if (isUpdated) {
+          history.push("/address/me");
+          alert.success("address updated successfully");
+          dispatch({ type: UPDATE_ADDRESS_RESET });
+        }
       }, [
         dispatch,
-        // alert,
-        // error,
-        // isUpdated,
+        alert,
+     error,
+        isUpdated,
         history,
-        // updateError,
-        orderAddress,
+        updateError,
+        
         addressId,
       ]);
     
@@ -66,9 +101,12 @@ const UpdateAddress = ({match,history}) => {
   return (
     <div>
 
+{load || loading ? <Loader/> :(
+
+    <div>
 <div className="row wrapper">
                 <div className="col-10 col-lg-5">
-                    <form className="shadow-lg" >
+                    <form className="shadow-lg" onSubmit={submitHandler} >
                         <h1 className="mb-4">Add Address</h1>
                         <div className="form-group">
                             <label htmlFor="address_field">Address</label>
@@ -141,12 +179,16 @@ const UpdateAddress = ({match,history}) => {
                             id="shipping_btn"
                             type="submit"
                             className="btn btn-block py-3"
+                            disabled={loading ? true : false}
                         >
-                            ADD
+                            UPDATE
                             </button>
                     </form>
                 </div>
             </div>
+</div>
+)}
+
     </div>
   )
 }

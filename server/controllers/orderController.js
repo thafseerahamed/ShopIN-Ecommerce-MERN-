@@ -83,10 +83,14 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
   if (order.orderStatus === "Delivered") {
     return next(new ErrorHandler("You have already delivered this order", 400));
   }
-  console.log(req.body)
-  order.orderItems.forEach(async (item) => {
-    await updateStock(item.product, item.quantity);
-  });
+  if (order.orderStatus === "Cancelled") {
+    return next(new ErrorHandler("You have already cancelled this order", 400));
+  }
+  if (req.body.orderstatus == "Delivered") {
+    order.orderItems.forEach(async (item) => {
+      await updateStock(item.product, item.quantity);
+    });
+  }
 
   order.orderStatus = req.body.orderstatus;
 
@@ -120,22 +124,20 @@ exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-
-
 // @desc    Get details for report
 // @route   GET /api/orders/report/:id
 // @access  Private/ Admin
 exports.report = catchAsyncErrors(async (req, res) => {
-  const upper = req.params.id
-  const lower = req.query.lower
+  const upper = req.params.id;
+  const lower = req.query.lower;
   console.log(lower);
-  let products = []
-  let total = 0
-  let quantity = 0
-  let paid = 0
-  let unpaid = 0
-  let paidAmount = 0
-  let unpaidAmount = 0
+  let products = [];
+  let total = 0;
+  let quantity = 0;
+  let paid = 0;
+  let unpaid = 0;
+  let paidAmount = 0;
+  let unpaidAmount = 0;
 
   const orders = await Order.find({
     createdAt: {
@@ -144,19 +146,18 @@ exports.report = catchAsyncErrors(async (req, res) => {
     },
   })
     .sort({ createdAt: -1 })
-    .populate('orderItems', 'product price quantity name')
+    .populate("orderItems", "product price quantity name");
   orders.forEach((order) => {
     order.orderItems.forEach((item) => {
-     
       if (item.product) {
-        let product = products.find((product) => product.name === item.name)
+        let product = products.find((product) => product.name === item.name);
         if (product) {
-          product.quantity += item.quantity
-          product.total += item.price
+          product.quantity += item.quantity;
+          product.total += item.price;
           if (order.paymentInfo.status === "succeeded") {
-            product.paid += item.price
+            product.paid += item.price;
           } else {
-            product.unpaid += item.price
+            product.unpaid += item.price;
           }
         } else {
           products.push({
@@ -167,28 +168,28 @@ exports.report = catchAsyncErrors(async (req, res) => {
             paid: 0,
             unpaid: 0,
             paidQty: 0,
-          })
+          });
           if (order.paymentInfo.status === "succeeded") {
-            products[products.length - 1].paid += item.price
-            products[products.length - 1].paidQty += item.quantity
+            products[products.length - 1].paid += item.price;
+            products[products.length - 1].paidQty += item.quantity;
           } else {
-            products[products.length - 1].unpaid += item.price
+            products[products.length - 1].unpaid += item.price;
           }
         }
       }
-    })
-  })
+    });
+  });
   products.forEach((product) => {
-    quantity += product.quantity
-    total += product.total
+    quantity += product.quantity;
+    total += product.total;
     if (product.paid) {
-      paid += product.paid
+      paid += product.paid;
     } else {
-      unpaid += product.unpaid
+      unpaid += product.unpaid;
     }
-    paidAmount += product.paid
-    unpaidAmount += product.unpaid
-  })
+    paidAmount += product.paid;
+    unpaidAmount += product.unpaid;
+  });
   res.json({
     products,
     quantity: quantity,
@@ -197,5 +198,5 @@ exports.report = catchAsyncErrors(async (req, res) => {
     paid: Math.round(paid * 100) / 100,
     paidAmount: Math.round(paidAmount * 100) / 100,
     unpaidAmount: Math.round(unpaidAmount * 100) / 100,
-  })
-})
+  });
+});

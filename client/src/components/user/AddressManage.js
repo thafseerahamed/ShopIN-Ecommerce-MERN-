@@ -80,9 +80,7 @@ const AddressManage = ({ history}) => {
                      <button className="btn btn-danger mx-2" onClick={() => deleteAddressHandler(shippingInfo._id)}>
                      <i className="fa fa-trash"></i>
                  </button>
-                 <Link to={`/address/new`} className="btn btn-success mx-2" >
-                     <i className="fa fa-plus"></i>
-                 </Link>
+                
                  </div>
             })
         })
@@ -99,6 +97,10 @@ const AddressManage = ({ history}) => {
 <h1 className="my-5">My Addresses</h1>
 
 {loading ? <Loader /> : (
+    <div>
+     <Link to={`/address/new`} className="btn btn-success mx-2" >
+     <i className="fa fa-plus"></i>
+ </Link>
     <MDBDataTable
         data={setAddress()}
         className="px-3"
@@ -107,6 +109,8 @@ const AddressManage = ({ history}) => {
         hover
        
     />
+    
+    </div>
 )}
 
 

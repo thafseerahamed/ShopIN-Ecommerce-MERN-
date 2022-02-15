@@ -85,7 +85,7 @@ const UpdateProduct = ({ history, match }) => {
     images.forEach((image) => {
       formData.append("images", image);
     });
-    console.log(category);  
+  
     dispatch(updateProduct(product._id, formData));
   };
 
