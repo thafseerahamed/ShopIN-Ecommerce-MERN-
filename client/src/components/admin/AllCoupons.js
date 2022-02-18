@@ -29,6 +29,12 @@ const AllCoupons = () => {
         }, [couponDeleted])
       
 
+        const couponDeleteHandler = async (couponId) => {
+            if (window.confirm('Are you sure?')) {
+              await axios.delete(`/api/v1/admin/coupon/${couponId}`)
+              setCouponDeleted(!couponDeleted)
+            }
+          }
 
     const setCoupon = () => {
         const data = {
@@ -64,10 +70,10 @@ const AllCoupons = () => {
                 id: coupon._id,
           
                 discount:coupon.discount,
-            //     // actions:<div> <button className="btn btn-danger py-1 px-2 mt-1"  onClick={() => deleteOrderHandler(offer._id)}>
-            //     <i className="fa fa-trash"></i>
-            //   </button>
-            // </div>
+                actions:<div> <button className="btn btn-danger py-1 px-2 mt-1"  onClick={() => couponDeleteHandler(coupon._id)}>
+                <i className="fa fa-trash"></i>
+              </button>
+            </div>
               
                
             })

@@ -389,6 +389,20 @@ export const showWalletBalance = () => async (dispatch, getState) => {
 }
 
 
+
+
+export const deductFromWallet = (amount) => async (dispatch, getState) => {
+ 
+
+
+
+  const { data } = await axios.put(`/api/v1/wallet/${amount}`)
+  dispatch({
+    type: DEDUCT_FROM_WALLET,
+    payload: data,
+  })
+}
+
 // Clear errors
 export const clearErrors = () => async (dispatch) => {
   dispatch({

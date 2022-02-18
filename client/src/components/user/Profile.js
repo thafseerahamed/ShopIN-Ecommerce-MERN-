@@ -8,9 +8,9 @@ import { getUserDetails,  showReferralCode,
 const Profile = ({ history}) => {
   const dispatch = useDispatch()
   const { user, loading } = useSelector((state) => state.user);
-  const refer = useSelector((state) => state.referralId)
+  const {refer} = useSelector((state) => state.referralId)
 
-
+console.log(refer);
   const wallet = useSelector((state) => state.wallet)
   const { data } = wallet
 useEffect(() => {
@@ -24,7 +24,7 @@ useEffect(() => {
   }
  
 
-},[history,dispatch])
+},[history])
 
   return (
     <Fragment>
@@ -68,7 +68,7 @@ useEffect(() => {
 
        {refer ?  <div>     
             <h4>My Referral Id</h4>
-              <p>{refer && refer.refer.referralId} </p>
+              <p>{refer && refer.referralId} </p>
               </div>:(<div></div>)
        }
                 <Link to="/address/me" className="btn btn-danger btn-block mt-5">

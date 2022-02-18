@@ -21,6 +21,7 @@ exports.addCoupon = catchAsyncErrors(async (req, res) => {
 // @route PUT /api/coupon
 // @access Public
 exports.applyCouponToTheOrder = catchAsyncErrors(async (req, res) => {
+  console.log(req.body);
   const { couponId, user } = req.body
   const coupon = await Coupon.findById(couponId)
   let updatedCoupon

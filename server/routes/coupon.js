@@ -12,7 +12,7 @@ const {
   } = require("../middlewares/userAuth");
 
 
-router.route('/admin/coupon').post(isAuthenticatedUser,authorizeRoles("admin"),addCoupon).put(applyCouponToTheOrder).get(getAllCoupons)
+router.route('/admin/coupon').post(isAuthenticatedUser,addCoupon).put(applyCouponToTheOrder).get(getAllCoupons)
 
 router.route('/admin/coupon/:couponId').delete(deleteCoupon)
 module.exports = router;
