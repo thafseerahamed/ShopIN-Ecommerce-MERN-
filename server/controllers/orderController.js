@@ -53,6 +53,9 @@ exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
 
 //Get logged in user orders   =>  /api/v1/orders/me
 exports.myOrders = catchAsyncErrors(async (req, res, next) => {
+  // if (req.user.isBlocked) {
+  //   return next(new ErrorHandler("Blocked ID", 404));
+  // }
   const orders = await Order.find({ user: req.user.id });
 
   res.status(200).json({
@@ -125,12 +128,12 @@ exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
 });
 
 // @desc    Get details for report
-// @route   GET /api/orders/report/:id
+// @route   GET /api/v1/orders/report/:id
 // @access  Private/ Admin
 exports.report = catchAsyncErrors(async (req, res) => {
   const upper = req.params.id;
   const lower = req.query.lower;
-  console.log(lower);
+
   let products = [];
   let total = 0;
   let quantity = 0;

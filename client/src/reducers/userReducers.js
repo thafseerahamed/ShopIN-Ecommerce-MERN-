@@ -43,6 +43,9 @@ import {
   UNBLOCK_USER_SUCCESS,
   UNBLOCK_USER_FAIL,
   UNBLOCK_USER_RESET,
+  SHOW_REFERRAL_CODE,
+  SHOW_WALLET_BALANCE,
+  DEDUCT_FROM_WALLET,
 } from "../constants/userConstatnts";
 
 export const userReducer = (
@@ -133,6 +136,7 @@ export const profileReducer = (state = {}, action) => {
           ...state,
           loading: false,
           isBlocked: action.payload,
+     
         };
 
         case UNBLOCK_USER_SUCCESS:
@@ -292,5 +296,30 @@ export const userDetailsReducer = (state = { user: {} }, action) => {
 
       default:
           return state;
+  }
+}
+
+
+
+export const referralIdReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SHOW_REFERRAL_CODE:
+      return{
+        refer:action.payload,
+      }
+ 
+    default:
+      return state
+  }
+}
+
+export const walletIdReducer = (state = { data: [] }, action) => {
+  switch (action.type) {
+    case SHOW_WALLET_BALANCE:
+      return { data: action.payload }
+    case DEDUCT_FROM_WALLET:
+      return state
+    default:
+      return state
   }
 }

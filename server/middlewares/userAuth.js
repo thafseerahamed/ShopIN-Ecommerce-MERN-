@@ -3,6 +3,7 @@ const catchAsyncErrors = require("./catchAsyncErrors");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
+
 // Checks if user is authenticated or not
 exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
   const { token } = req.cookies;
@@ -12,9 +13,16 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
   }
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
   req.user = await User.findById(decoded.id);
-
+  if (req.user.isBlocked===true) {
+    // res.cookie("token", null, {
+    //   expires: new Date(Date.now()),
+    //   httpOnly: true,
+    // });
+    return next(new ErrorHandler("User Blocked", 401));
+  }
   next();
 });
+
 
 //Handling users roles
 

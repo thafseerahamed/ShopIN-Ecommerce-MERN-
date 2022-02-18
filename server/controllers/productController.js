@@ -239,3 +239,24 @@ exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
 
   })
 })
+
+
+exports.dashboard = catchAsyncErrors(async (req, res) => {
+  const products = await Product.find({})
+  const length = products.length
+  let electronics = 0
+  let laptop = 0
+  let others = 0
+
+  products.forEach((product) => {
+    if (product.category === 'Electronics') {
+      electronics++
+    } else if (product.category === 'Laptops') {
+      laptop++
+    } else {
+      others++
+    }
+  })
+
+  res.json({ length, electronics, laptop, others })
+})

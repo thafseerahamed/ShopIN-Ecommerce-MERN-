@@ -1,11 +1,30 @@
-import React, { Fragment } from "react";
+import React, { Fragment,useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../layout/Loader";
 import MetaData from "../layout/MetaData";
+import { getUserDetails,  showReferralCode,
+  showWalletBalance, } from "../../actions/userActions";
 const Profile = ({ history}) => {
+  const dispatch = useDispatch()
   const { user, loading } = useSelector((state) => state.user);
+  const refer = useSelector((state) => state.referralId)
 
+
+  const wallet = useSelector((state) => state.wallet)
+  const { data } = wallet
+useEffect(() => {
+
+
+ dispatch(showReferralCode())
+ dispatch(showWalletBalance())
+
+  if (user && user.isBlocked === true){
+    history.push('/login')
+  }
+ 
+
+},[history,dispatch])
 
   return (
     <Fragment>
@@ -41,9 +60,17 @@ const Profile = ({ history}) => {
               <h4>Email Address</h4>
               <p>{user.email}</p>
 
-              <h4>Joined On</h4>
-              <p>{String(user.createdAt).substring(0, 10)}</p>
+              {/* <h4>Joined On</h4>
+              <p>{String(user.createdAt).substring(0, 10)}</p> */}
             
+            <h4>My Wallet</h4>
+              <p>Balance: Rs {data && data}/-</p>
+
+       {refer ?  <div>     
+            <h4>My Referral Id</h4>
+              <p>{refer && refer.refer.referralId} </p>
+              </div>:(<div></div>)
+       }
                 <Link to="/address/me" className="btn btn-danger btn-block mt-5">
                   Manage Shipping Details
                 </Link>

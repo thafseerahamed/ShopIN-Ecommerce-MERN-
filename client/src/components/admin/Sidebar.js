@@ -59,6 +59,21 @@ const Sidebar = () => {
                             </li>
                         </ul>
                     </li>
+
+                    <li>
+                        <a href="#productSubm" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle"><i
+                            className="fa fa-plus-square"></i> Coupons</a>
+                        <ul className="collapse list-unstyled" id="productSubm">
+                            <li>
+                            <Link to="/admin/coupons"><i className="fa fa-clipboard"></i> All</Link>
+                            </li>
+            
+                            <li>
+                            <Link to="/admin/coupon"><i className="fa fa-plus"></i> Create</Link>
+                            </li>
+                        </ul>
+                    </li>
+            
             
                 </ul>
                 </nav>

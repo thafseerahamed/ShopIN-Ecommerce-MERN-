@@ -1,4 +1,6 @@
 const User = require("../models/user");
+const ReferralId = require("../models/referral");
+const Wallet = require("../models/wallet");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const sendToken = require("../utils/jwtToken");
@@ -9,6 +11,7 @@ const cloudinary = require("cloudinary");
 // Register a user   => /api/v1/register
 
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
+  console.log(req.body.avatar);
   const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
     folder: "avatars",
     width: 150,
@@ -314,3 +317,179 @@ exports.unBlockUser = catchAsyncErrors(async (req, res, next) => {
     success: true,
   });
 });
+
+
+
+// @desc    Check if the given referral Id is valid
+// @route   PUT /api/v1/referral
+// @access  Private
+exports.checkReferralId = catchAsyncErrors(async (req, res) => {
+
+  const referralId = req.body.referralId
+  const loguser = await User.findOne({ email: req.body.email})
+const _id = loguser._id
+  let parentUser
+  let checked = false
+
+  const referral = await ReferralId.find({})
+  referral.forEach(async (item) => {
+    if (item.referralId === referralId) {
+      checked = true
+      parentUser = item.user
+      const wallet = new Wallet({
+        user: _id,
+        balance: 100,
+      })
+      await wallet.save()
+      const test = await Wallet.findOneAndUpdate(
+        {
+          user: parentUser,
+        },
+        {
+          $inc: { balance: 100 },
+        },
+        {
+          new: true,
+          upsert: true,
+        }
+      )
+      res.json('success')
+    }
+  })
+
+  if (!checked) {
+    res.json('fail')
+  }
+})
+
+
+
+// @desc    Add referral id
+// @route   POST /api/referral
+// @access  Private
+exports.addReferralId = catchAsyncErrors(async (req, res) => {
+  const userId = req.user._id
+  const referralA = req.user.name.slice(0, 2)
+  const referralB = req.user.email.slice(0, 2)
+  const referral = referralA + referralB
+
+  const referralId = new ReferralId({
+    user: userId,
+    referralId: referral,
+  })
+
+  await referralId.save()
+
+  res.json('success')
+})
+
+
+// @desc    Get referral id
+// @route   GET /api/users/referral
+// @access  Private
+exports.getReferralId = catchAsyncErrors(async (req, res) => {
+  const userId = req.user._id
+
+  const data = await ReferralId.find({
+    user: userId,
+  })
+  res.json(data)
+})
+
+
+// // @desc    Get referral id
+// // @route   GET /api/users/referral
+// // @access  Private
+// exports.getReferralId = catchAsyncErrors(async (req, res) => {
+//   const userId = req.user._id
+
+//   const data = await ReferralId.find({
+//     user: userId,
+//   })
+//   res.json(data)
+// })
+
+
+// @desc    Delete wallet balance
+// @route   PUT /api/v1/wallet
+// @access  Private
+exports.deductWalletBalance = catchAsyncErrors(async (req, res) => {
+  const userId = req.user._id
+  const amount = req.params.amount
+
+  const test = await Wallet.findOneAndUpdate(
+    {
+      user: userId,
+    },
+    {
+      $inc: { balance: -amount },
+    },
+    {
+      new: true,
+    }
+  )
+
+  res.json('success')
+})
+
+
+ // @desc    Get wallet balance
+  // @route   GET /api/v1/wallet
+  // @access  Private
+  exports.showWalletBalance = catchAsyncErrors(async (req, res) => {
+    const userId = req.user._id
+
+    const data = await Wallet.find({
+      user: userId,
+    })
+    if (data.length > 0) {
+      const response = data[0].balance
+      res.json(response)
+    } else {
+      res.json(0)
+    }
+  })
+
+
+
+  exports.dashboard = catchAsyncErrors(async (req, res) => {
+    const users = await User.find()
+    const usersCount = users.length
+  
+    const users1 = await User.find({
+      createdAt: {
+        $gte: Date.now() - 1000 * 60 * 60 * 24 * 30 * 4,
+        $lt: Date.now() - 1000 * 60 * 60 * 24 * 30 * 3,
+      },
+    })
+  
+    const users2 = await User.find({
+      createdAt: {
+        $gte: Date.now() - 1000 * 60 * 60 * 24 * 30 * 3,
+        $lt: Date.now() - 1000 * 60 * 60 * 24 * 30 * 2,
+      },
+    })
+    const users3 = await User.find({
+      createdAt: {
+        $gte: Date.now() - 1000 * 60 * 60 * 24 * 30 * 2,
+        $lt: Date.now() - 1000 * 60 * 60 * 24 * 30 * 1,
+      },
+    })
+    const users4 = await User.find({
+      createdAt: {
+        $gte: Date.now() - 1000 * 60 * 60 * 24 * 30 * 1,
+      },
+    })
+  
+    const userNumbers = [
+      users1.length,
+      users2.length,
+      users3.length,
+      users4.length,
+    ]
+  
+    res.json({
+      usersCount,
+      userNumbers,
+    })
+  })

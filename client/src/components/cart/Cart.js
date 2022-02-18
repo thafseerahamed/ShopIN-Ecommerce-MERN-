@@ -20,6 +20,7 @@ const Cart = ({ history }) => {
     error,
     shippingData = [],
   } = useSelector((state) => state.shippingData);
+  const { isAuthenticated,  user} = useSelector((state) => state.user);
   const [radio, setRadio] = useState("");
   const removeCartItemHandler = (id, name) => {
     if (window.confirm(`Delete ${name} from Cart ?`)) {
@@ -63,12 +64,14 @@ const Cart = ({ history }) => {
     history.push("/address/me");
   };
   useEffect(() => {
+  
     
     dispatch(myAddress());
 
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
+history.push('/login')
     }
   }, [dispatch, alert, error]);
 

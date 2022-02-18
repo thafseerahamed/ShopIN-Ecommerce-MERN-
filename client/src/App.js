@@ -11,6 +11,7 @@ import store from "./store";
 import { loaduser } from "./actions/userActions";
 import Profile from "./components/user/Profile";
 import ProtectedRoute from "./components/route/ProtectedRoute";
+
 import ProfileUpdate from "./components/user/ProfileUpdate";
 import UpdatePassword from "./components/user/UpdatePassword";
 import ForgotPassword from "./components/user/ForgotPassword";
@@ -41,8 +42,10 @@ import CategoryDetails from "./components/admin/CategoryDetails";
 import CreateOffer from "./components/admin/CreateOffer";
 import AllOffers from "./components/admin/AllOffers";
 import SaleReport from "./components/admin/SaleReport";
+import CreateCoupon from "./components/admin/CreateCoupon"
 import AddressManage from "./components/user/AddressManage";
 import UpdateAddress from "./components/user/UpdateAddress";
+import AllCoupons from "./components/admin/AllCoupons";
 
 function App() {
 
@@ -57,7 +60,7 @@ function App() {
     }
     getStripeApiKey()
   }, []);
-  const {user, loading } = useSelector((state) => state.user);
+  const {user, loading,isBlocked } = useSelector((state) => state.user);
 
   return (
     <Router>
@@ -68,9 +71,10 @@ function App() {
         <Route path="/product/:id" component={ProductDetails} exact />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
+        <Route path="/cart" component={Cart} exact/>
         <Route path="/password/forgot" component={ForgotPassword} exact />
         <Route path="/password/reset/:token" component={NewPassword} exact />
-        <ProtectedRoute path="/cart" component={Cart} />
+       
         <Route path="/address/new" component={AddNewAddress} />
         <Route path="/address/me" component={AddressManage} />
         <Route path="/address/update/:id" component={UpdateAddress} />
@@ -113,6 +117,8 @@ function App() {
       {/* <Route path="/404" component={InvalidRoute} />
       <Redirect to="/404" /> */}
           <ProtectedRoute path="/admin/order/:id" isAdmin= {true} component={ProcessOrder} exact />
+          <ProtectedRoute path="/admin/coupon" isAdmin= {true} component={CreateCoupon} exact />
+          <ProtectedRoute path="/admin/coupons" isAdmin= {true} component={AllCoupons} exact />
         <Footer1 />
     
       

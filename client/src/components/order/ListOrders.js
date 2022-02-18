@@ -9,7 +9,7 @@ import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { myOrders, clearErrors } from '../../actions/orderActions'
 
-const ListOrders = () => {
+const ListOrders = ({ history}) => {
 
     const alert = useAlert();
     const dispatch = useDispatch();
@@ -23,6 +23,7 @@ const ListOrders = () => {
         if (error) {
             alert.error(error);
             dispatch(clearErrors())
+            history.push('/login')
         }
     }, [dispatch, alert, error])
 

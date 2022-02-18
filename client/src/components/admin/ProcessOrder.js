@@ -17,7 +17,7 @@ import { UPDATE_ORDER_RESET } from "../../constants/orderConstants";
 
 const ProcessOrder = ({ match }) => {
   const [orderstatus, setOrderStatus] = useState("");
-  const [paymentstatus, setPaymentStatus] = useState("");
+  const [paymentstatus, setPaymentStatus] = useState("not completed");
 
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const ProcessOrder = ({ match }) => {
       alert.error(error);
       dispatch(clearErrors());
     }
-    console.log(orderstatus);
+
 
     if (isUpdated) {
       alert.success("order updated successfully");
@@ -178,27 +178,31 @@ const ProcessOrder = ({ match }) => {
                   >
                     Update Status
                   </button>
+{paymentInfo && paymentInfo.status ==="succeeded" ? 
+<div>
+</div>: (<div> 
+  <h4 className="my-4">Payment Status</h4>
 
-                  <h4 className="my-4">Payment Status</h4>
+<div className="form-group">
+  <select
+    className="form-control"
+    name="paymentstatus"
+    value={paymentstatus}
+    onChange={(e) => setPaymentStatus(e.target.value)}
+  >
+    <option value="succeeded">Succeeded</option>
+    <option value="not completed">Not completed</option>
+  </select>
+</div>
 
-                  <div className="form-group">
-                    <select
-                      className="form-control"
-                      name="paymentstatus"
-                      value={paymentstatus}
-                      onChange={(e) => setPaymentStatus(e.target.value)}
-                    >
-                      <option value="succeeded">Succeeded</option>
-                      <option value="not completed">Not completed</option>
-                    </select>
-                  </div>
-
-                  <button
-                    className="btn btn-primary btn-block"
-                    onClick={() => updatePaymentHandler(order._id)}
-                  >
-                    Update Status
-                  </button>
+<button
+  className="btn btn-primary btn-block"
+  onClick={() => updatePaymentHandler(order._id)}
+>
+  Update Status
+</button> 
+ </div>)}
+                 
                 </div>
               </div>
             )}

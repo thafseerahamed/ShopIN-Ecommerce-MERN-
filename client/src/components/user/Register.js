@@ -19,6 +19,7 @@ const Register = ({ history }) => {
   const [avatarPreview, setAvatarPreview] = useState(
     "/images/default_avatar.jpg"
   );
+  const [referralId, setReferralId] = useState()
   const alert = useAlert();
   const dispatch = useDispatch();
   const { isAuthenticated, error, loading } = useSelector(
@@ -43,8 +44,9 @@ const Register = ({ history }) => {
     formData.set("email", email);
     formData.set("password", password);
     formData.set("avatar", avatar);
+    formData.set("referralId", referralId);
 
-    dispatch(register(formData));
+    dispatch(register(formData,referralId));
   };
 
   const onChange = (e) => {
@@ -109,6 +111,19 @@ const Register = ({ history }) => {
                 onChange={onChange}
               />
             </div>
+            
+            <div className="form-group">
+              <label htmlFor="password_field">Have Referral Id ?</label>
+              <input
+                type="name"
+                id="password_field"
+                className="form-control"
+                name="password"
+                value={referralId}
+                onChange={(e)=> setReferralId(e.target.value) }
+              />
+            </div>
+
 
             <div className="form-group">
               <label htmlFor="avatar_upload">Avatar</label>

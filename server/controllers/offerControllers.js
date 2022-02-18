@@ -16,7 +16,7 @@ if (offer.category === category){
 } 
 }
  )
- console.log(dup)
+
 
  if(dup){
   return next(new ErrorHandler("Offer exists with this Category", 404));

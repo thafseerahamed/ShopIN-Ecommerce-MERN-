@@ -19,6 +19,7 @@ const UpdateProduct = ({ history, match }) => {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [stock, setStock] = useState(0);
+  const [discountPrice, setDiscountPrice] = useState(0);
   const [images, setImages] = useState([]);
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
@@ -42,6 +43,7 @@ const UpdateProduct = ({ history, match }) => {
     } else {
       setName(product.name);
       setPrice(product.price);
+      setDiscountPrice(product.discountPrice);
       setDescription(product.description);
       setCategory(product.category);
       setStock(product.stock);
@@ -81,7 +83,7 @@ const UpdateProduct = ({ history, match }) => {
     formData.set("description", description);
     formData.set("category", category);
     formData.set("stock", stock);
-
+    formData.set("discountPrice", discountPrice);
     images.forEach((image) => {
       formData.append("images", image);
     });
@@ -147,6 +149,16 @@ const UpdateProduct = ({ history, match }) => {
                     className="form-control"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="price_field">Discount Percentage</label>
+                  <input
+                    type="text"
+                    id="price_field"
+                    className="form-control"
+                    value={discountPrice}
+                    onChange={(e) => setDiscountPrice(e.target.value)}
                   />
                 </div>
 

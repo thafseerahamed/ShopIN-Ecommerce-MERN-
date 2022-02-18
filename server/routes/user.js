@@ -15,12 +15,19 @@ const {
   updateUser,
   deleteUser,
   blockUser,
-  unBlockUser
+  unBlockUser,
+  checkReferralId,
+  addReferralId,
+  getReferralId,
+  showWalletBalance,
+  deductWalletBalance,
+  dashboard,
 } = require("../controllers/userController");
 const {
   isAuthenticatedUser,
   authorizeRoles,
-  authorizeUser,
+
+
 } = require("../middlewares/userAuth");
 const router = express.Router();
 
@@ -51,4 +58,13 @@ router.route("/address/me").get(isAuthenticatedUser,myAddress)
 router.route("/address/:id").get(isAuthenticatedUser,getSingleAddress)   
                             .delete(isAuthenticatedUser,deleteAddress)
                             .put(isAuthenticatedUser,updateAddress)  
+router.route('/wallet/:amount').put(isAuthenticatedUser, deductWalletBalance)
+router.route('/wallet').get(isAuthenticatedUser, showWalletBalance)
+router
+  .route('/referral')
+  .get(isAuthenticatedUser, getReferralId)
+  .post(isAuthenticatedUser, addReferralId)
+  .put(checkReferralId)   
+
+  router.route("/admin/users/dashboard").get(isAuthenticatedUser,authorizeRoles("admin"),dashboard)
 module.exports = router;

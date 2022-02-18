@@ -39,7 +39,9 @@ import {
   UNBLOCK_USER_REQUEST,
   UNBLOCK_USER_SUCCESS,
   UNBLOCK_USER_FAIL,
-
+  SHOW_REFERRAL_CODE,
+  SHOW_WALLET_BALANCE,
+  DEDUCT_FROM_WALLET,
 } from "../constants/userConstatnts";
 
 // Login
@@ -72,7 +74,8 @@ export const login = (email, password) => async (dispatch) => {
 };
 
 //Register user
-export const register = (userData) => async (dispatch) => {
+export const register = (userData,referralId) => async (dispatch) => {
+
   try {
     dispatch({ type: REGISTER_USER_REQUEST });
 
@@ -88,6 +91,14 @@ export const register = (userData) => async (dispatch) => {
       type: REGISTER_USER_SUCCESS,
       payload: data.user,
     });
+  
+   
+    await axios.post('/api/v1/referral', userData, config)
+    if (referralId.length > 0) {
+      await axios.put('/api/v1/referral', userData , config)
+    }
+
+
   } catch (error) {
     dispatch({
       type: REGISTER_USER_FAIL,
@@ -352,6 +363,31 @@ export const unBlockUser = (id) => async (dispatch) => {
     });
   }
 };
+
+
+
+export const showReferralCode = () => async (dispatch, getState) => {
+
+
+
+  const { data } = await axios.get(`/api/v1/referral`)
+  dispatch({
+    type: SHOW_REFERRAL_CODE,
+    payload: data[0]
+  })
+}
+
+export const showWalletBalance = () => async (dispatch, getState) => {
+
+
+ 
+  const { data } = await axios.get(`/api/v1/wallet`)
+  dispatch({
+    type: SHOW_WALLET_BALANCE,
+    payload: data,
+  })
+}
+
 
 // Clear errors
 export const clearErrors = () => async (dispatch) => {
