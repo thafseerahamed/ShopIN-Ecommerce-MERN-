@@ -45,7 +45,7 @@ const Register = ({ history }) => {
     formData.set("password", password);
     formData.set("avatar", avatar);
     formData.set("referralId", referralId);
-
+console.log(avatar);
     dispatch(register(formData,referralId));
   };
 
@@ -59,6 +59,7 @@ const Register = ({ history }) => {
           setAvatar(reader.result);
         }
       };
+      console.log(e.target.files[0]);
       reader.readAsDataURL(e.target.files[0]);
     } else {
       setUser({ ...user, [e.target.name]: e.target.value });

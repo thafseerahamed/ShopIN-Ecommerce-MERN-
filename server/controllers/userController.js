@@ -493,3 +493,28 @@ exports.deductWalletBalance = catchAsyncErrors(async (req, res) => {
       userNumbers,
     })
   })
+
+
+
+
+  exports.MainImage = catchAsyncErrors(async (req, res, next) => {
+
+    const result = await cloudinary.v2.uploader.upload(req.body.image, {
+      folder: "MainImages",
+      width: 150,
+      crop: "scale",
+    });
+  
+
+    // const user = await User.create({
+    
+    //   MainImage: {
+    //     public_id: result.public_id,
+    //     url: result.secure_url,
+    //   },
+    // });
+    res.json({ 
+      success:true,
+      url:result.secure_url
+    })
+  });

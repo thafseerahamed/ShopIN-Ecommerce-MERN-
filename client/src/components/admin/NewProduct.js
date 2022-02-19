@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { NEW_PRODUCT_RESET } from "../../constants/productConstants";
-
+import axios from 'axios'
 import MetaData from "../layout/MetaData";
-
+import CropImage from './CropImage'
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { newProduct, clearErrors } from "../../actions/productActions";
@@ -16,9 +16,14 @@ const NewProduct = ({ history }) => {
   const [category, setCategory] = useState("");
   const [stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
+  const [image, setImage] = useState("");
   const [imagesPreview, setImagesPreview] = useState([]);
+  const [showCropper, setShowCropper] = useState(false)
+  const [cropImage, setCropImage] = useState(false)
+  const [imageOne, setImageOne] = useState(null)
+  const [uploading, setUploading] = useState(false)
   const {  categories = []} = useSelector(state => state.allCategories);
- 
+ console.log(showCropper);
   const alert = useAlert();
   const dispatch = useDispatch();
 
@@ -49,6 +54,7 @@ const NewProduct = ({ history }) => {
     formData.set("description", description);
     formData.set("category", category);
     formData.set("stock", stock);
+    formData.set("image", image);
     images.forEach((image) => {
       formData.append("images", image);
     });
@@ -61,7 +67,7 @@ const NewProduct = ({ history }) => {
 
     setImagesPreview([]);
     setImages([]);
-
+  
     files.forEach((file) => {
       const reader = new FileReader();
 
@@ -69,12 +75,54 @@ const NewProduct = ({ history }) => {
         if (reader.readyState === 2) {
           setImagesPreview((oldArray) => [...oldArray, reader.result]);
           setImages((oldArray) => [...oldArray, reader.result]);
+      
         }
       };
       reader.readAsDataURL(file);
     });
   };
 
+
+  const uploadFileHandler = async (image) => {
+    console.log(image);
+
+  
+    const toBase64 = file => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+  });
+  
+  async function Main() {
+    let file = new File([image], "name.jpg");
+     var Img = await toBase64(file);
+     const formData = new FormData();
+
+     formData.append("image",Img );
+     try {
+      const configB = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+
+      const { data } = await axios.post('/api/v1/admin/main', formData, configB)
+     setImage(data.url)
+      setUploading(false)
+    } catch (error) {
+      setUploading(false)
+    }
+
+  }
+  
+  Main();
+  
+
+   
+
+
+  }
   return (
     <div>
       <MetaData title={"All Products"} />
@@ -91,6 +139,7 @@ const NewProduct = ({ history }) => {
                 encType="multipart/form-data"
               >
                 <h1 className="mb-4">New Product</h1>
+               
 
                 <div className="form-group">
                   <label htmlFor="name_field">Name</label>
@@ -152,6 +201,57 @@ const NewProduct = ({ history }) => {
                 </div>
 
                 <div className="form-group">
+                  <label>Main Image</label>
+                  <input
+                    type="text"
+                    id="name_field"
+                    className="form-control"
+                      value={image}
+                    onChange={(e) => setImage(e.target.value)}
+                  />
+                  <div className="custom-file">
+                    <input
+                      type="file"
+                      name="product_images"
+                      className="custom-file-input"
+                      id="customFile"
+                      onChange={(e) => {
+                        setCropImage(e.target.files[0])
+                        setShowCropper(true)
+                      }}
+                      accept=".jpg,.jpeg,.png,"
+                    />
+                    <label className="custom-file-label" htmlFor="customFile">
+                      Choose Main Image
+                    </label>
+                  </div>
+
+                  </div>
+
+
+               
+            {showCropper && (
+            <>
+            
+            <CropImage
+              src={cropImage}
+              imageCallback={(image) => {
+          
+                setImageOne(image)
+                setShowCropper(false)
+                uploadFileHandler(image)
+              }}
+              closeHander={() => {
+                setShowCropper(false)
+              }}
+            />
+            </>
+           )} 
+       
+
+
+
+                <div className="form-group">
                   <label>Images</label>
 
                   <div className="custom-file">
@@ -167,6 +267,9 @@ const NewProduct = ({ history }) => {
                       Choose Images
                     </label>
                   </div>
+
+
+
 
                   {imagesPreview.map((img) => (
                     <img
@@ -189,7 +292,9 @@ const NewProduct = ({ history }) => {
                   CREATE
                 </button>
               </form>
+         
             </div>
+            
           </div>
         </div>
       </div>

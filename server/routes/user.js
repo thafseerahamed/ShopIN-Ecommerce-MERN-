@@ -22,6 +22,7 @@ const {
   showWalletBalance,
   deductWalletBalance,
   dashboard,
+  MainImage,
 } = require("../controllers/userController");
 const {
   isAuthenticatedUser,
@@ -67,4 +68,5 @@ router
   .put(checkReferralId)   
 
   router.route("/admin/users/dashboard").get(isAuthenticatedUser,authorizeRoles("admin"),dashboard)
+  router.route("/admin/main").post(isAuthenticatedUser,authorizeRoles("admin"),MainImage)
 module.exports = router;

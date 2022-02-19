@@ -632,3 +632,31 @@ ul.CTAs a {
   font-size: 0.8rem;
   color: grey;
 }
+.crop-img-container-wrapper {
+  width: 100vw;
+  min-height: 100vh;
+  top: 0;
+  left: 0;
+  background: #1a1a1a54;
+}
+
+/* .crop-img-container {
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  padding: 1rem;
+} */
+
+/* 
+@media (max-width: 900px) {
+  .carousel-caption h2 {
+    font-size: 2.5vw;
+  }
+} */
+/* 
+@media (min-width: 1200px) {
+  .container {
+    min-width: 50vw;
+    max-width: 1600px;
+  }
+} */
