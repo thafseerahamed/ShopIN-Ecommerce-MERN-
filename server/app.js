@@ -9,7 +9,7 @@ const path = require('path');
 const errorMiddleware = require("./middlewares/errors");
 
 //setting up config file
-if(process.env.NODE_ENV !== "PRODUCTION") require('dotenv').dotenv.config({ path: "server/config/config.env" });
+if(process.env.NODE_ENV !== "PRODUCTION") require('dotenv').config({ path: "server/config/config.env" });
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyparser.urlencoded({ extended: true }));
