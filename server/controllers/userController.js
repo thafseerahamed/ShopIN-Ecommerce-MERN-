@@ -11,7 +11,7 @@ const cloudinary = require("cloudinary");
 // Register a user   => /api/v1/register
 
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-  console.log(req.body.avatar);
+
   const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
     folder: "avatars",
     width: 150,
@@ -79,7 +79,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   //   "host"
   // )}/api/v1/password/reset/${resetToken}`;
 
-  const resetUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`
+  const resetUrl = `${req.protocol}://${req.get('host')}/password/reset/${resetToken}`
 
   const message = `Your password reset token is as follow;\n\n${resetUrl}\n\n If you are not requested this email
     ,then ignore it.`;

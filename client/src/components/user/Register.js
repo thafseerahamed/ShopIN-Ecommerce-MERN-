@@ -45,7 +45,7 @@ const Register = ({ history }) => {
     formData.set("password", password);
     formData.set("avatar", avatar);
     formData.set("referralId", referralId);
-console.log(avatar);
+
     dispatch(register(formData,referralId));
   };
 
