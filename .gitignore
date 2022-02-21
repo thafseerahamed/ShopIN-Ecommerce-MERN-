@@ -3,13 +3,12 @@
 # dependencies
 /node_modules/
 /client/node_modules/
-/.pnp
-.pnp.js
+
 
 
 
 # production
-client/build
+
 
 # misc
 /server/config/config.env
