@@ -31,7 +31,7 @@ const Product = ({ product, col }) => {
             <div>
               <strike className="card-text">₹{product.price}</strike>
               
-              <p className="card-text">₹{product.netPrice}</p>
+              <p className="card-text">₹{product.price - (product.discountPrice*product.price)/100}</p>
            
             </div>
           )}

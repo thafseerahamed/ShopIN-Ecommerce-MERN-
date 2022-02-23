@@ -64,6 +64,27 @@ exports.myOrders = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+
+//Update/ Process order - USER  =>  /api/v1/order/:id
+exports.userUpdateOrder = catchAsyncErrors(async (req, res, next) => {
+  const order = await Order.findById(req.params.id);
+
+
+  if (order.paymentInfo.status === "succeeded") {
+    return next(new ErrorHandler("You Cannot Cancel the Paid Order", 400));
+  }
+ 
+
+  order.orderStatus ="Cancelled"
+
+
+  await order.save();
+  res.status(200).json({
+    success: true,
+  });
+});
+
+
 //Get all orders - ADMIN  =>  /api/v1/admin/orders
 exports.allOrders = catchAsyncErrors(async (req, res, next) => {
   const orders = await Order.find();

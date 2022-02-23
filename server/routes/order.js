@@ -9,6 +9,7 @@ const {
   updateOrder,
   deleteOrder,
   report,
+  userUpdateOrder,
 } = require("../controllers/orderController");
 
 const {
@@ -19,6 +20,7 @@ const {
 router.route("/order/new").post(isAuthenticatedUser, newOrder);
 router.route("/order/:id").get(isAuthenticatedUser, getSingleOrder);
 router.route("/orders/me").get(isAuthenticatedUser, myOrders);
+router.route("/order/cancel/:id").put(isAuthenticatedUser, userUpdateOrder);
 
 router
   .route("/admin/orders")

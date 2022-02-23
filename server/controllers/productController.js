@@ -100,6 +100,9 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
       return next(new ErrorHandler('Product not found', 404));
   }
 
+
+
+
   let images = []
   if (typeof req.body.images === 'string') {
       images.push(req.body.images)
@@ -130,6 +133,7 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
       req.body.images = imagesLinks
 
   }
+
 
 
 

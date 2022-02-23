@@ -111,7 +111,7 @@ history.push('/login')
                           ₹{" "}
                           {item.discountPrice === 0
                             ? item.price
-                            : item.netPrice}
+                            : item.price - (item.discountPrice*item.price)/100}
                         </p>
                       </div>
 

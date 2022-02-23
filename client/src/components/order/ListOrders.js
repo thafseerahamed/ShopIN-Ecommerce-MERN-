@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { MDBDataTable } from 'mdbreact'
-
+import axios from "axios"
 import MetaData from '../layout/MetaData'
 import Loader from '../layout/Loader'
 
@@ -27,6 +27,22 @@ const ListOrders = ({ history}) => {
         }
     }, [dispatch, alert, error])
 
+
+    const orderHandler =async(id)=>{
+        if (window.confirm(`Cancel Order ?`)){
+            try {
+
+                const  {data} = await axios.put(`/api/v1/order/cancel/${id}`)
+                console.log(data);
+                alert.success("Order Cancelled")
+                
+            } catch (error) {
+                alert.error(error.response.data.message)
+            }
+     
+     
+    }
+    }
     const setOrders = () => {
         const data = {
             columns: [
@@ -67,10 +83,15 @@ const ListOrders = ({ history}) => {
                 status: order.orderStatus && String(order.orderStatus).includes('Delivered')
                     ? <p style={{ color: 'green' }}>{order.orderStatus}</p>
                     : <p style={{ color: 'red' }}>{order.orderStatus}</p>,
-                actions:
+                actions:<div>
                     <Link to={`/order/${order._id}`} className="btn btn-primary">
                         <i className="fa fa-eye"></i>
                     </Link>
+                   {  order.orderStatus && String(order.orderStatus).includes('Delivered') ||  order.orderStatus && String(order.orderStatus).includes('Cancelled') ? <div>              </div>:<button onClick={() => orderHandler(order._id)} className="btn btn-danger ml-2">
+                     <i className="fa fa-times"></i>
+                 </button>
+            }
+                 </div>
             })
         })
 

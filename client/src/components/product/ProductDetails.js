@@ -52,7 +52,7 @@ const ProductDetails = ({ history}) => {
     const qty = count.valueAsNumber - 1;
     setQuantity(qty);
   };
-
+  product.netPrice = product.price - (product.discountPrice*product.price)/100
   return (
     <Fragment>
       {loading ? (

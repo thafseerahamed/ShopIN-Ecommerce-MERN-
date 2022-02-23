@@ -53,11 +53,12 @@ const ProcessOrder = ({ match }) => {
 
     dispatch(updateOrder(id, formData));
   };
-  const updatePaymentHandler = (id) => {
+  const updatePaymentHandler = (id) => { if (window.confirm(`Update Payment Status ?`)){
     const formData = new FormData()
     formData.set("paymentstatus", paymentstatus);
 
     dispatch(updatePayment(id, formData));
+  }
   };
   const shippingDetails =
     shippingInfo &&

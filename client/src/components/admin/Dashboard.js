@@ -165,7 +165,7 @@ const Dashboard = () => {
           </text>
         )
       }
-
+      console.log(info);
       const options = {
         responsive: true,
         plugins: {
