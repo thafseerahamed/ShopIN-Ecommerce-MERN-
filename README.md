@@ -4,7 +4,7 @@ Complete E-commerce site built with Node.js, React, Redux, Express, MongoDB
 
 
 Env Variables
-Add your config variables values in the config.env file in backend/config folder as shown in the course.
+Add your config variables values in the config.env file in server/config folder
 
 Install Dependencies (client)
 cd client
